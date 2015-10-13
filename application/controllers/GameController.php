@@ -6,6 +6,7 @@ class GameController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('html');
 	}
+	
 	public function index(){
 		$this->load->view('playing');
 	}

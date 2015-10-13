@@ -57,7 +57,7 @@
             -->
             <p><strong><?=$user->get_facebook_name()?></strong></p>
             <p><strong><?=$user->get_facebook_id()?></strong></p>
-            <a href="go_to_play" class="btn btn-block btn-lg btn-success">Play Game</a>
+            <a href="<?=base_url('gamecontroller')?>" class="btn btn-block btn-lg btn-success">Play Game</a>
         </div>
     <?php endif; ?>
 

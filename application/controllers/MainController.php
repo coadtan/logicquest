@@ -42,8 +42,4 @@ class MainController extends CI_Controller {
 		redirect('maincontroller/facebook_login', redirect);
 		// redirect('maincontroller/facebook_login', redirect);
 	}
-
-	public function go_to_play(){
-		redirect('gamecontroller', redirect);
-	}
 }
