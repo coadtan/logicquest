@@ -55,6 +55,7 @@ class QuestionModel extends CI_Model{
 				}
 			}else{
 				echo "no question in this group!";
+				exit();
 			}
 		}else{
 			echo "group name inserted incorrectly!";
@@ -80,6 +81,20 @@ class QuestionModel extends CI_Model{
 		}else{
 			$rand_keys = array_rand($array_of_q_id, 1);
 			return $array_of_q_id[$rand_keys];
+		}
+	}
+
+	public function get_question_object($q_id){
+		$question_object = $this->db->select('*')->from('question')->where('q_id', $q_id)->get();
+		if ($question_object->num_rows() >= 1){
+			$question = new QuestionModel();
+			$question->set_q_id($question_object->result_array()[0]['q_id']);
+			$question->set_q_description($question_object->result_array()[0]['q_description']);
+			$question->set_q_type($question_object->result_array()[0]['q_type']);
+			$question->set_q_group($question_object->result_array()[0]['q_group']);
+			return $question;
+		}else{
+			echo "no question found!";
 		}
 	}
 
