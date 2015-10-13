@@ -24,6 +24,12 @@
 
     <!-- Main -->
     <h1>Game Playing</h1>
+
+    <a href="gamecontroller/get_question/b" class="btn btn-block btn-lg btn-success">B</a>
+    <a href="gamecontroller/get_question/e" class="btn btn-block btn-lg btn-success">E</a>
+    <a href="gamecontroller/get_question/n" class="btn btn-block btn-lg btn-success">N</a>
+    <a href="gamecontroller/get_question/h" class="btn btn-block btn-lg btn-success">H</a>
+
     
 </body>
 </html>

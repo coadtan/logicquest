@@ -5,6 +5,7 @@ class MainController extends CI_Controller {
 		parent::__construct();
 		$this->load->model('FacebookUserModel');
 		$this->load->library('facebook');
+		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('html');
 	}
@@ -25,6 +26,7 @@ class MainController extends CI_Controller {
 						echo "Unable to save your facebook data to our database";
 					}
 				}
+				$this->session->set_userdata('user_id', $user['data']['id']);
 			}else{
 				echo "Facebook Login Failed!";
 			}
