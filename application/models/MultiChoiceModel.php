@@ -41,4 +41,27 @@ class MultiChoiceModel extends CI_Model{
 	public function get_q_m_answer_series(){
 		return $this->q_m_answer_series;
 	}
+
+	public function get_multi_choice_object($q_m_id){
+		$multi_choice_object = $this->db->select('*')->from('multi_choice')->where('q_m_id', $q_m_id)->get();
+		if ($multi_choice_object->num_rows() >= 1){
+			$multi_choice = new MultiChoiceModel();
+			$multi_choice->set_q_m_id($multi_choice_object->result_array()[0]['q_m_id']);
+			$multi_choice->set_q_m_question($multi_choice_object->result_array()[0]['q_m_question']);
+			$multi_choice->set_q_m_element($multi_choice_object->result_array()[0]['q_m_element']);
+			$multi_choice->set_q_m_answer_series($multi_choice_object->result_array()[0]['q_m_answer_series']);
+			$complete_question = $this->convert_question_to_html($multi_choice->get_q_m_question());
+			$multi_choice->set_q_m_question($complete_question);
+			return $multi_choice;
+		}else{
+			echo "no multi_choice found!";
+		}
+	}
+
+	private function convert_question_to_html($data){
+		$complete_data = null;
+		$complete_data = str_replace('<tab>', '&nbsp;&nbsp;&nbsp;&nbsp;', $data);
+		$complete_data = str_replace('[____]', '<font color="red">[____]</font>', $complete_data);
+		return $complete_data;
+	}
 }

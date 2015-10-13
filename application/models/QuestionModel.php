@@ -44,22 +44,21 @@ class QuestionModel extends CI_Model{
 	}
 
 	public function get_q_id_list_from_group($group){
-		$array_of_q_id = array();
+		$array_of_q_id = null;
 		if ($group === 'b' ^ $group === 'e' ^ $group === 'n' ^ $group === 'h') {
 			$question_id_array = $this->db->select('q_id')->from('question')->where('q_group', $group)->get();
 			if ($question_id_array->num_rows() >= 1){
+				$array_of_q_id = array();
 				$i = 0;
 				foreach($question_id_array->result_array() as $value){
 					$array_of_q_id[$i] = $value['q_id'];
 					$i++;
 				}
 			}else{
-				echo "no question in this group!";
-				exit();
+				return $array_of_q_id;
 			}
 		}else{
-			echo "group name inserted incorrectly!";
-    		exit();
+    		return $array_of_q_id;
 		}
 
 		return $array_of_q_id;
