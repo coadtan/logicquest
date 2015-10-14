@@ -97,4 +97,20 @@ class QuestionModel extends CI_Model{
 		}
 	}
 
+	public function get_description($q_description){
+		$split1 = explode("];[", $q_description);
+		$split2 = explode("][", $split1[0]);
+		$description = trim($split2[1], '\'');
+		// echo $description;
+		return $description;
+	}
+
+	public function get_result($q_description){
+		$split1 = explode("];[", $q_description);
+		$split2 = explode("][", $split1[1]);
+		$result = trim($split2[1], '\']');
+		//echo $result;
+		return $result;
+	}
+
 }

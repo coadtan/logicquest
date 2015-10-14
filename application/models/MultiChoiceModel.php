@@ -8,6 +8,7 @@ class MultiChoiceModel extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->helper('convert_tag_helper');
 	}
 
 	public function set_q_m_id($q_m_id){
@@ -50,7 +51,7 @@ class MultiChoiceModel extends CI_Model{
 			$multi_choice->set_q_m_question($multi_choice_object->result_array()[0]['q_m_question']);
 			$multi_choice->set_q_m_element($multi_choice_object->result_array()[0]['q_m_element']);
 			$multi_choice->set_q_m_answer_series($multi_choice_object->result_array()[0]['q_m_answer_series']);
-			$complete_question = $this->convert_question_to_html($multi_choice->get_q_m_question());
+			$complete_question = convert_question_to_html($multi_choice->get_q_m_question());
 			$multi_choice->set_q_m_question($complete_question);
 			return $multi_choice;
 		}else{
@@ -58,10 +59,4 @@ class MultiChoiceModel extends CI_Model{
 		}
 	}
 
-	private function convert_question_to_html($data){
-		$complete_data = null;
-		$complete_data = str_replace('<tab>', '&nbsp;&nbsp;&nbsp;&nbsp;', $data);
-		$complete_data = str_replace('[____]', '<font color="red">[____]</font>', $complete_data);
-		return $complete_data;
-	}
 }

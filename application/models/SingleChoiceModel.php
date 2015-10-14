@@ -8,6 +8,7 @@ class SingleChoiceModel extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->helper('convert_tag_helper');
 	}
 
 	public function set_q_s_id($q_s_id){
@@ -50,7 +51,7 @@ class SingleChoiceModel extends CI_Model{
 			$single_choice->set_q_s_question($single_choice_object->result_array()[0]['q_s_question']);
 			$single_choice->set_q_s_choice($single_choice_object->result_array()[0]['q_s_choice']);
 			$single_choice->set_q_s_answer($single_choice_object->result_array()[0]['q_s_answer']);
-			$complete_question = $this->convert_question_to_html($single_choice->get_q_s_question());
+			$complete_question = convert_question_to_html($single_choice->get_q_s_question());
 			$single_choice->set_q_s_question($complete_question);
 			return $single_choice;
 		}else{
@@ -58,11 +59,64 @@ class SingleChoiceModel extends CI_Model{
 		}
 	}
 
-	private function convert_question_to_html($data){
-		$complete_data = null;
-		$complete_data = str_replace('<tab>', '&nbsp;&nbsp;&nbsp;&nbsp;', $data);
-		$complete_data = str_replace('[____]', '<font color="red">[____]</font>', $complete_data);
-		return $complete_data;
-	}
+	public function get_choice($q_s_choice){
+		$complete_result = '';
+		$symbol_open = 0;
+		$number_of_choice = 0;
+		
+		//============================================================================
+		// Find the total number of choice provided. Maximun of choice provide is 10
+		$maximun_choice = 10;
+		//============================================================================
 
+		for ($choice_number = 1; $choice_number <= $maximun_choice; $choice_number++) {
+			if(substr($q_s_choice, 0, 3) == '['.$choice_number.']'){
+				$arr = str_split($q_s_choice);
+				foreach($arr as $char){
+					if (strcmp($char, '[') == 0) {
+		    			$symbol_open++;
+		    			continue;
+					}
+					if($symbol_open == 1){
+						if(strcmp($char, '\'') == 0){
+							$symbol_open++;
+							continue;
+						}
+					}elseif($symbol_open == 2){
+						$number_of_choice++;
+					}
+					$symbol_open = 0;
+				}
+			}
+		}
+		//============================================================================
+		// At this point, $number_of_choice is ready to use
+		//============================================================================
+
+		//============================================================================
+		// Now we are going to populate choice to present at View
+		//[1]['x > y'];[2]['X > Y'];[3]['y < x'];[4]['y > x'];[5]['a < b'];
+		//============================================================================
+		for($choice_number = 1; $choice_number <= $number_of_choice; $choice_number++){
+			if ($choice_number != $number_of_choice){
+				$q_s_choice_temp = substr($q_s_choice, 0, strpos($q_s_choice, '\'];'));
+				$q_s_choice_temp = trim($q_s_choice_temp, '['.$choice_number.'][\'');
+				$unuse_data = '['.$choice_number.'][\'' . $q_s_choice_temp . '\'];';
+				$q_s_choice = trim($q_s_choice, $unuse_data);
+			}elseif($choice_number == $number_of_choice){
+				$q_s_choice_temp = $q_s_choice;
+				$q_s_choice_temp = trim($q_s_choice_temp, '['.$choice_number.'][\'');
+			}
+
+			$complete_result = (string)$complete_result . '(';
+			$complete_result = (string)$complete_result . (string)$choice_number;
+			$complete_result = (string)$complete_result . ')';
+			$complete_result = (string)$complete_result . '&nbsp;&nbsp;&nbsp;&nbsp;';
+			$complete_result = (string)$complete_result . (string)$q_s_choice_temp;
+			$complete_result = (string)$complete_result . '<br>';
+		}
+
+		return $complete_result;
+	}
+	
 }
