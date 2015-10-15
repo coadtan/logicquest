@@ -36,10 +36,11 @@ $newDate = date('d-F-Y');
         h1, h3 {
             text-align: center;
         }
-        .examples a {
+        .login-facebook a {
             border: medium none;
-            background: none repeat scroll 0% 0% #eee;
-            color: #333;
+            background: none repeat scroll 0% 0% #466299;
+            color: #FFFFFF;
+            font-weight: bold;
             font-size: 24px;
             padding: 40px 20px;
             margin: 20px 2%;
@@ -51,7 +52,7 @@ $newDate = date('d-F-Y');
             text-align: center;
             transition: background .6s ease;
         }
-        .examples a:hover {
+        .login-facebook a:hover {
             background: #ccc;
         }
     </style>
@@ -63,12 +64,14 @@ $newDate = date('d-F-Y');
     <!-- Loading all compiled plugins -->
     <?=script_tag('assets/flat/js/vendor/video.js')?>
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
-<h1>Home</h1>
-<h1><?=$newDate?></h1>
-<div class="wrapper">
-    <div class="examples">
-        <a href="maincontroller/facebook_login" class="web">Redirect Login<br/>Example</a>
+    <div class="container">
+        <h1>Logic Quest</h1>
+        <h1><?=$newDate?></h1>
+        <div class="wrapper" align="center">
+            <div class="login-facebook">
+                <a href="maincontroller/facebook_login" class="web">Login with Facebook</a>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>

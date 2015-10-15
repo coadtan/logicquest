@@ -87,13 +87,13 @@
         </div>  
         <hr class="divider">
         <div class="row">
-            <div class="col-md-12">
-                <?php if(isset($single_choice_choice)) :?>
-                    <pre class="sh_java" style="font-size: 28px;"><?=$single_choice_choice?></pre>
-                    <br>
-                <?php endif;?>                
-            </div>
-        </div>  
+            <?php if(isset($single_choice_choice)) :?>
+                <!-- <pre class="sh_java" style="font-size: 12px;"> -->
+                    <?=$single_choice_choice?>
+                <!-- </pre> -->
+            <?php endif;?>                
+        </div>
+        <hr class="divider">
     </div>
 </body>
 </html>

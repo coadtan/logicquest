@@ -54,4 +54,8 @@ class GameController extends CI_Controller {
 						 );
 
 	}
+
+	public function player_answer($answer){
+		
+	}
 }

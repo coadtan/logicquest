@@ -108,12 +108,16 @@ class SingleChoiceModel extends CI_Model{
 				$q_s_choice_temp = trim($q_s_choice_temp, '['.$choice_number.'][\'');
 			}
 
-			$complete_result = (string)$complete_result . '(';
+			$complete_result = (string)$complete_result . '<div class="row"><div class="col-md-4"><a href="';
+			$complete_result = (string)$complete_result . base_url('gamecontroller/player_answer/'.$choice_number);
+			$complete_result = (string)$complete_result . '\" class="btn btn-block btn-lg btn-default" style="font-size: 20px;">(';
 			$complete_result = (string)$complete_result . (string)$choice_number;
 			$complete_result = (string)$complete_result . ')';
-			$complete_result = (string)$complete_result . '&nbsp;&nbsp;&nbsp;&nbsp;';
+			$complete_result = (string)$complete_result . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$complete_result = (string)$complete_result . (string)$q_s_choice_temp;
+			$complete_result = (string)$complete_result . '</a></div></div>';
 			$complete_result = (string)$complete_result . '<br>';
+
 		}
 
 		return $complete_result;
