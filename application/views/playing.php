@@ -86,13 +86,24 @@
             </div>
         </div>  
         <hr class="divider">
-        <div class="row">
-            <?php if(isset($single_choice_choice)) :?>
-                <!-- <pre class="sh_java" style="font-size: 12px;"> -->
-                    <?=$single_choice_choice?>
-                <!-- </pre> -->
-            <?php endif;?>                
-        </div>
+        <?php if(isset($single_choice_array)) :?>
+            <div class="row">
+                <div class="col-md-2" style="font-size:22px;">
+                    Choose your Answer
+                </div>
+                <?php foreach($single_choice_array as $element):?>
+                    <div class="col-md-2">
+                        <a href="<?=base_url('gamecontroller/player_answer/'.$element['choice_no'])?>">
+                            <button class="btn btn-default" style="font-size:25px;">
+                                <?=$element['choice_no']?>)
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <?=$element['choice_detail']?>
+                            </button>
+                        </a>
+                    </div>
+                <?php endforeach;?>
+            </div>
+        <?php endif;?>
         <hr class="divider">
     </div>
 </body>
