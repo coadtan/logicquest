@@ -27,6 +27,7 @@ class MainController extends CI_Controller {
 					}
 				}
 				$this->session->set_userdata('user_id', $user['data']['id']);
+				$this->session->set_userdata('user_name', $user['data']['name']);
 			}else{
 				echo "Facebook Login Failed!";
 			}
@@ -41,7 +42,7 @@ class MainController extends CI_Controller {
 
 	public function facebook_logout(){
 		$this->facebook->destroy_session();
-		redirect('maincontroller/facebook_login', redirect);
+		redirect('maincontroller', redirect);
 		// redirect('maincontroller/facebook_login', redirect);
 	}
 }

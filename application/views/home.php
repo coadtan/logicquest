@@ -15,7 +15,7 @@ $newDate = date('d-F-Y');
     <!-- Loading Flat UI -->
 	<?=link_tag('assets/flat/css/flat-ui.min.css')?>
 
-	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="shortcut icon" href="<?=base_url('assets/logicquest/img/favicon.ico')?>">
         <style>
         body {
             padding: 0;
@@ -64,14 +64,24 @@ $newDate = date('d-F-Y');
     <!-- Loading all compiled plugins -->
     <?=script_tag('assets/flat/js/vendor/video.js')?>
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
+
+    <?php $this->load->view('page_header'); ?>
+    <br>
+    <br>
+    <br>
     <div class="container">
         <h1>Logic Quest</h1>
         <h1><?=$newDate?></h1>
         <div class="wrapper" align="center">
             <div class="login-facebook">
-                <a href="maincontroller/facebook_login" class="web">Login with Facebook</a>
+                <!-- <a href="maincontroller/facebook_login" class="web">Login with Facebook</a> -->
+                <a href="<?php echo $this->facebook->login_url(); ?>" class="web">Login with Facebook</a>
             </div>
         </div>
+    </div>
+
+    <div class="credit" align="center">
+        Ribbon,Ribbon,Shield,Sport,Animal graphics by <a href="http://www.freepik.com/">Freepik</a> from <a href="http://www.flaticon.com/">Flaticon</a> are licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>.Star graphic by <a href="undefined">undefined</a> from <a href="http://logomakr.com">Logomakr</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>. Made with <a href="http://logomakr.com" title="Logo Maker">Logo Maker</a>   
     </div>
 </body>
 </html>

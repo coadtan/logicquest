@@ -6,12 +6,19 @@ class GameController extends CI_Controller {
 		$this->load->model('QuestionModel');
 		$this->load->model('SingleChoiceModel');
 		$this->load->model('MultiChoiceModel');
+		$this->load->library('facebook');
+		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('html');
 	}
 	
 	public function index(){
 		$this->load->view('playing');
+	}
+	public function facebook_logout(){
+		$this->facebook->destroy_session();
+		redirect('maincontroller/facebook_login', redirect);
+		// redirect('maincontroller/facebook_login', redirect);
 	}
 
 	public function get_question($group){

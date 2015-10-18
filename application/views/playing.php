@@ -25,7 +25,9 @@
     <!-- Loading SHJS syntax JS -->
     <?=script_tag('assets/shjs/js/sh_main.min.js')?>
     <?=script_tag('assets/shjs/js/sh_java.min.js')?>
-    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <link rel="shortcut icon" href="<?=base_url('assets/logicquest/img/favicon.ico')?>">
+
     <!-- Loading Count down function -->
     <?=script_tag('assets/jquery_countdown/js/jquery.countdown.js')?>
 
@@ -208,7 +210,14 @@
 <body onload="sh_highlightDocument();">
     <!-- BODY BELOW -->
     <!-- container -->
-    <a href="https://github.com/coad4u4ever/logicquest"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+<!--     <a href="https://github.com/coad4u4ever/logicquest">
+        <img 
+            style="position: absolute; top: 0; right: 0; border: 0;" 
+            src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" 
+            alt="Fork me on GitHub"
+        >
+    </a> -->
+    <?php $this->load->view('page_header'); ?>
     <div class="container">
         <h1>Game Playing</h1>
         <?php if(isset($warning_message)) :?>
