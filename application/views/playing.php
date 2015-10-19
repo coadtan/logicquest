@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <title>Playing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Loading Sweet Alert JS -->
+    <?=script_tag('assets/sweetalert/js/sweetalert.min.js')?>
     <!-- Loading Bootstrap -->
     <?=link_tag('assets/flat/css/vendor/bootstrap.min.css')?>
     <!-- Loading Flat UI -->
@@ -20,8 +22,7 @@
     <!-- Loading all compiled plugins -->
     <?=script_tag('assets/flat/js/vendor/video.js')?>
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
-    <!-- Loading Sweet Alert JS -->
-    <?=script_tag('assets/sweetalert/js/sweetalert.min.js')?>
+
     <!-- Loading SHJS syntax JS -->
     <?=script_tag('assets/shjs/js/sh_main.min.js')?>
     <?=script_tag('assets/shjs/js/sh_java.min.js')?>
@@ -33,7 +34,7 @@
 
     <!-- Loading Count down css -->
     <?=link_tag('assets/jquery_countdown/css/media.css')?>
-    
+
     <style type="text/css">
         body { 
             background: #F6F6F6 !important; 
@@ -54,20 +55,20 @@
         }
 
         .progress-bar-move span {
-          display: inline-block;
-          height: 100%;
-          background-color: #777;
-          -moz-border-radius: 3px;
-          -webkit-border-radius: 3px;
-          border-radius: 3px;
-          -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-          -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-          box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-          -webkit-transition: width .4s ease-in-out;
-          -moz-transition: width .4s ease-in-out;
-          -ms-transition: width .4s ease-in-out;
-          -o-transition: width .4s ease-in-out;
-          transition: width .4s ease-in-out;
+            display: inline-block;
+            height: 100%;
+            background-color: #777;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+            -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+            -webkit-transition: width .4s ease-in-out;
+            -moz-transition: width .4s ease-in-out;
+            -ms-transition: width .4s ease-in-out;
+            -o-transition: width .4s ease-in-out;
+            transition: width .4s ease-in-out;               
         }
 
         .orange span {
@@ -79,7 +80,8 @@
           background-image: -o-linear-gradient(top, #fecf23, #fd9215);
           background-image: linear-gradient(top, #fecf23, #fd9215);
         }
- 
+
+        <?php if($this->session->userdata('question_group')):?>    
         .stripes span {
             -webkit-background-size: 30px 30px;
             -moz-background-size: 30px 30px;
@@ -93,6 +95,7 @@
             -webkit-animation: animate-stripes 3s linear infinite;
             -moz-animation: animate-stripes 3s linear infinite;
         }
+        
         @-webkit-keyframes 
         animate-stripes { 
             0% {
@@ -159,8 +162,11 @@
                 width: 95%;
             }
         }
+        <?php endif;?>
     </style>
     <script>
+
+
         var percent = 100;
         $(function(){
             $('.counter').countdown({
@@ -205,6 +211,9 @@
             $("#soundlevel").children('span').css('width', Math.floor(Math.random() * 100)+'%');
         }
         //@ sourceURL=pen.js
+    $(function () {
+        $('[data-toggle=tooltip]').tooltip();
+      });
     </script>
 </head>
 <body onload="sh_highlightDocument();">
@@ -225,16 +234,16 @@
         <?php endif;?>
         <div class="row">
             <div class="col-xs-3">
-                  <a href="<?=base_url('gamecontroller/get_question/b')?>" class="btn btn-block btn-lg btn-default">Beginner</a>
+                <a title="Click. If you are a newbie." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/b')?>" class="btn btn-block btn-lg btn-default">Beginner</a>
             </div>
             <div class="col-xs-3">
-                <a href="<?=base_url('gamecontroller/get_question/e')?>" class="btn btn-block btn-lg btn-success">Easy</a>
+                <a  title="Click. If you are a programming student." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/e')?>" class="btn btn-block btn-lg btn-success">Easy</a>
             </div>
             <div class="col-xs-3">
-                <a href="<?=base_url('gamecontroller/get_question/n')?>" class="btn btn-block btn-lg btn-warning">Normal</a>
+                <a  title="Click. If you are a programmer." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/n')?>" class="btn btn-block btn-lg btn-warning">Normal</a>
             </div>
             <div class="col-xs-3">
-                <a href="<?=base_url('gamecontroller/get_question/h')?>" class="btn btn-block btn-lg btn-danger">Difficult</a>
+                <a  title="Click. If you are an expert." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/h')?>" class="btn btn-block btn-lg btn-danger">Difficult</a>
             </div>
         </div>
         <!-- Timing Zone -->
@@ -250,58 +259,73 @@
                 <div class="progress-bar-move orange shine"> <span id="timerbar" style="width: 100%"></span> </div>
             </div>
             <div class="col-xs-3">
-                <div class="counter"></div>
+                <?php if(!$this->session->userdata('question_group')):?>
+                    
+                <?php else :?>
+                    <div class="counter"></div>
+                <?php endif;?>
             </div>
         </div>
         <br>
         <!-- End of Timing Zone -->
-        <hr class="divider">
+        <?php if(!$this->session->userdata('question_group')):?>
         <div class="row">
-            <div class="col-md-6">
-                <?php if(isset($description)) :?>
-                    <?=$description?>
-                <?php endif;?>
-            </div>
-            <div class="col-md-6">
-                Result
-            </div>
+            <div class="col-md-9">
+                <video class="video-js" preload="auto" poster="<?=base_url('assets/logicquest/img/video_poster.png')?>" data-setup="{}">
+                    <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.mp4" type="video/mp4">
+                    <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.webm" type="video/webm">
+                </video>
+            </div>  
         </div>
-        <hr class="divider">
-        <div class="row">
-            <div class="col-md-6">
-                <?php if(isset($single_choice)) :?>
-                    <pre class="sh_java" style="font-size: 28px;"><?=$single_choice->get_q_s_question()?></pre>
-                <?php elseif(isset($multi_choice)) :?>
-                    <pre class="sh_java" style="font-size: 28px;"><?=$multi_choice->get_q_m_question()?></pre>
-                <?php endif;?>
-            </div>
-            <div class="col-md-6">
-                <?php if(isset($result)) :?>
-                    <?=$result?>
-                    <br>
-                <?php endif;?>
-            </div>
-        </div>  
-        <hr class="divider">
-        <?php if(isset($single_choice_array)) :?>
+        <?php else :?>
+            <hr class="divider">
             <div class="row">
-                <div class="col-md-2" style="font-size:22px;">
-                    Choose your Answer
+                <div class="col-md-6">
+                    <?php if(isset($description)) :?>
+                        <?=$description?>
+                    <?php endif;?>
                 </div>
-                <?php foreach($single_choice_array as $element):?>
-                    <div class="col-md-2">
-                        <a href="<?=base_url('gamecontroller/player_answer/'.$element['choice_no'])?>">
-                            <button class="btn btn-default" style="font-size:25px;">
-                                <?=$element['choice_no']?>)
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <?=$element['choice_detail']?>
-                            </button>
-                        </a>
-                    </div>
-                <?php endforeach;?>
+                <div class="col-md-6">
+                    Result
+                </div>
             </div>
+            <hr class="divider">
+            <div class="row">
+                <div class="col-md-6">
+                    <?php if(isset($single_choice)) :?>
+                        <pre class="sh_java" style="font-size: 28px;"><?=$single_choice->get_q_s_question()?></pre>
+                    <?php elseif(isset($multi_choice)) :?>
+                        <pre class="sh_java" style="font-size: 28px;"><?=$multi_choice->get_q_m_question()?></pre>
+                    <?php endif;?>
+                </div>
+                <div class="col-md-6">
+                    <?php if(isset($result)) :?>
+                        <?=$result?>
+                        <br>
+                    <?php endif;?>
+                </div>
+            </div>  
+            <hr class="divider">
+            <?php if(isset($single_choice_array)) :?>
+                <div class="row">
+                    <div class="col-md-2" style="font-size:22px;">
+                        Choose your Answer
+                    </div>
+                    <?php foreach($single_choice_array as $element):?>
+                        <div class="col-md-2">
+                            <a href="<?=base_url('gamecontroller/player_answer/'.$element['choice_no'])?>">
+                                <button class="btn btn-default" style="font-size:25px;">
+                                    <?=$element['choice_no']?>)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <?=$element['choice_detail']?>
+                                </button>
+                            </a>
+                        </div>
+                    <?php endforeach;?>
+                </div>
+            <?php endif;?>
+            <hr class="divider">           
         <?php endif;?>
-        <hr class="divider">
     </div>
 </body>
 </html>

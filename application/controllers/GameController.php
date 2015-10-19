@@ -13,12 +13,8 @@ class GameController extends CI_Controller {
 	}
 	
 	public function index(){
+		$this->session->unset_userdata('question_group');
 		$this->load->view('playing');
-	}
-	public function facebook_logout(){
-		$this->facebook->destroy_session();
-		redirect('maincontroller/facebook_login', redirect);
-		// redirect('maincontroller/facebook_login', redirect);
 	}
 
 	public function get_question($group){
@@ -32,6 +28,7 @@ class GameController extends CI_Controller {
 		$single_choice_array = null;
 		$array_of_q_id = $question->get_q_id_list_from_group($group);
 		if(isset($array_of_q_id)){
+			$this->session->set_userdata('question_group', $group);
 			$question_id = $question->random_question($array_of_q_id);
 			$question = $question->get_question_object($question_id);
 			$description = $question->get_description($question->get_q_description());
@@ -45,6 +42,7 @@ class GameController extends CI_Controller {
 				$multi_choice_object = $multi_choice_object->get_multi_choice_object($question->get_q_id());
 			}
 		}else{
+			$this->session->unset_userdata('question_group');
 			$warning_message = 'No question in this group';
 		}
 		

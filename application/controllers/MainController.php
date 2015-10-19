@@ -31,18 +31,29 @@ class MainController extends CI_Controller {
 			}else{
 				echo "Facebook Login Failed!";
 			}
+			// $friend_array is a set of friends to be saved at facebook_friend table
 			$friend_array = $facebook_player->get_friends($user['data']['id']);
 			if(isset($friend_array)){
 				$facebook_player->save_friend($user['data']['id'], $friend_array);
 			}
 		}
+	}
 
-		$this->load->view('facebook_login', array('user'=>$facebook_player));
+	public function main(){
+		if(!$this->session->userdata('user_id')){
+			$this->facebook_login();
+		}
+		
+		$this->load->view('facebook_login');
 	}
 
 	public function facebook_logout(){
 		$this->facebook->destroy_session();
-		redirect('maincontroller', redirect);
+		$this->session->unset_userdata('user_id');
+		$this->session->unset_userdata('user_name');
+		$this->session->unset_userdata('question_group');
+		redirect('home', redirect);
+
 		// redirect('maincontroller/facebook_login', redirect);
 	}
 }

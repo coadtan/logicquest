@@ -49,8 +49,12 @@
 </a>
 
 <div class="div-header">
+	<?php if($this->session->userdata('user_id') != NULL) :?>
+	<a href="<?=base_url('maincontroller/main')?>">
+	<?php else :?>
 	<a href="<?=base_url('')?>">
-		<span class="font-logo">LOGIC QUEST</span>
+	<?php endif; ?>	
+	<span class="font-logo">LOGIC QUEST</span>
 	</a>
 	<?php if ($this->facebook->logged_in()) : ?>
         <span class="span-right">

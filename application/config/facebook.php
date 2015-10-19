@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['facebook_app_id']              = '917986511605159';
 $config['facebook_app_secret']          = 'da9aad9cdf16a7ef200b85b247580a91';
 $config['facebook_login_type']          = 'web';
-$config['facebook_login_redirect_url']  = 'maincontroller/facebook_login';
+$config['facebook_login_redirect_url']  = 'maincontroller/main';
 $config['facebook_logout_redirect_url'] = 'maincontroller/facebook_logout';
 $config['facebook_permissions']         = array('public_profile', 'user_friends');
 
