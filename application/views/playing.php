@@ -375,8 +375,6 @@
                         </div>
                     <?php endforeach;?>
                 </div>
-            <?php else :?>
-                multi choice is not set
             <?php endif;?>
             <hr class="divider">           
         <?php endif;?>
