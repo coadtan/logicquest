@@ -214,6 +214,42 @@
     $(function () {
         $('[data-toggle=tooltip]').tooltip();
       });
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("element", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("element");
+        var element_text = document.getElementById(data).innerHTML
+        // console.log(element_text);
+        ev.target.innerHTML = deconvert(element_text);
+        // ev.target.appendChild(document.getElementById(data));
+    }
+
+    function deconvert(element){
+        element = element.trim();
+        element = element.replace(/&nbsp;/g , "");
+        element = element.trim();
+        element = element.substring(2);
+        element = element.trim();
+        element = element;
+        return element;
+    }
+
+    function undo_answer(ev){
+        ev.preventDefault();
+        // ev.target.style.display = 'none';
+        console.log(ev.target.innerHTML);
+        if((ev.target.innerHTML !== '[')  && (ev.target.innerHTML !== ']') ){
+            ev.target.innerHTML = '____';
+        }
+        
+    }
     </script>
 </head>
 <body onload="sh_highlightDocument();">
@@ -251,10 +287,10 @@
         <div class="row">
             <div class="col-xs-9" >
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger" style="width: 10%;"></div>
-                    <div class="progress-bar progress-bar-warning" style="width: 20%;"></div>
-                    <div class="progress-bar" style="width: 30%;"></div>
-                    <div class="progress-bar progress-bar-success" style="width: 40%;"></div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%;"><br>0</div>
+                    <div class="progress-bar progress-bar-warning" style="width: 20%;"><br>0.5</div>
+                    <div class="progress-bar" style="width: 30%;"><br>0.75</div>
+                    <div class="progress-bar progress-bar-success" style="width: 40%;"><br>1</div>
                 </div>
                 <div class="progress-bar-move orange shine"> <span id="timerbar" style="width: 100%"></span> </div>
             </div>
@@ -270,7 +306,7 @@
         <!-- End of Timing Zone -->
         <?php if(!$this->session->userdata('question_group')):?>
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-7">
                 <video class="video-js" preload="auto" poster="<?=base_url('assets/logicquest/img/video_poster.png')?>" data-setup="{}">
                     <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.mp4" type="video/mp4">
                     <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.webm" type="video/webm">
@@ -280,25 +316,25 @@
         <?php else :?>
             <hr class="divider">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <?php if(isset($description)) :?>
                         <?=$description?>
                     <?php endif;?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     Result
                 </div>
             </div>
             <hr class="divider">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <?php if(isset($single_choice)) :?>
                         <pre class="sh_java" style="font-size: 28px;"><?=$single_choice->get_q_s_question()?></pre>
                     <?php elseif(isset($multi_choice)) :?>
                         <pre class="sh_java" style="font-size: 28px;"><?=$multi_choice->get_q_m_question()?></pre>
                     <?php endif;?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <?php if(isset($result)) :?>
                         <?=$result?>
                         <br>
@@ -323,6 +359,24 @@
                         </div>
                     <?php endforeach;?>
                 </div>
+            <?php endif;?>
+            <?php if(isset($multi_choice_array)) :?>
+                <div class="row">
+                    <div class="col-md-2" style="font-size:22px;">
+                        Order your elements
+                    </div>
+                    <?php foreach($multi_choice_array as $element):?>
+                        <div class="col-md-2">
+                            <button id="dragable<?=$element['element_no']?>" draggable="true" ondragstart="drag(event)" class="btn btn-default" style="font-size:25px;">
+                                <?=$element['element_no']?>)
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <?=$element['element_detail']?>
+                            </button>
+                        </div>
+                    <?php endforeach;?>
+                </div>
+            <?php else :?>
+                multi choice is not set
             <?php endif;?>
             <hr class="divider">           
         <?php endif;?>

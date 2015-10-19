@@ -40,6 +40,7 @@ class GameController extends CI_Controller {
 			}else if($question->get_q_type() === 'm'){
 				$multi_choice_object = $this->MultiChoiceModel;
 				$multi_choice_object = $multi_choice_object->get_multi_choice_object($question->get_q_id());
+				$multi_choice_array = $multi_choice_object->get_choice_array($multi_choice_object->get_q_m_element());
 			}
 		}else{
 			$this->session->unset_userdata('question_group');
@@ -54,7 +55,7 @@ class GameController extends CI_Controller {
 										'description' => $description,
 										'result' => $result,
 										'single_choice_array' => $single_choice_array,
-										'multi_choice_choice' => $multi_choice_array
+										'multi_choice_array' => $multi_choice_array
 									)
 						 );
 
