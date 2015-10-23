@@ -198,7 +198,16 @@
                 });
             $('.full').click(function(){
                     $(this).parent().prev().children('span').css('width','100%');
-                });         
+                });
+
+            $("#question-submit").click(function(){
+                var data = "";
+                $("#question-zone > button > font").each(function( index ) {
+                    data += "[" + $(this).attr("data-id") + "]";
+                });
+                 // console.log(data);
+                 alert(data);
+            });
         });
         var intervalID = setInterval(function(){getData();}, 100);
         var volumeLevel = 40;
@@ -214,6 +223,7 @@
     $(function () {
         $('[data-toggle=tooltip]').tooltip();
       });
+
     function allowDrop(ev) {
         ev.preventDefault();
     }
@@ -225,21 +235,27 @@
     function drop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("element");
-        var element_text = document.getElementById(data).innerHTML
-        // console.log(element_text);
-        ev.target.innerHTML = deconvert(element_text);
-        // ev.target.appendChild(document.getElementById(data));
+        var element_text = document.getElementById(data).innerHTML;
+        //console.log("xxx"+element_text);
+        element_text = element_text.trim();
+        element_text = element_text.replace(/&nbsp;/g , "");
+        element_text = element_text.trim();
+        element_text = element_text.substring(2);
+        element_text = element_text.trim();
+        ev.target.innerHTML = element_text;
+        var element_id = document.getElementById(data).getAttribute("data-id");
+        ev.target.setAttribute("data-id", element_id);
+        // ev.target.appendChild(document.getElementById(data))
     }
-
-    function deconvert(element){
-        element = element.trim();
-        element = element.replace(/&nbsp;/g , "");
-        element = element.trim();
-        element = element.substring(2);
-        element = element.trim();
-        element = element;
-        return element;
-    }
+    // function deconvert(element){
+    //     element = element.trim();
+    //     element = element.replace(/&nbsp;/g , "");
+    //     element = element.trim();
+    //     element = element.substring(2);
+    //     element = element.trim();
+    //     element = element;
+    //     return element;
+    // }
 
     function undo_answer(ev){
         ev.preventDefault();
@@ -247,6 +263,7 @@
         console.log(ev.target.innerHTML);
         if((ev.target.innerHTML !== '[')  && (ev.target.innerHTML !== ']') ){
             ev.target.innerHTML = '____';
+            ev.target.removeAttribute("data-id");
         }
         
     }
@@ -329,9 +346,9 @@
             <div class="row">
                 <div class="col-md-8">
                     <?php if(isset($single_choice)) :?>
-                        <pre class="sh_java" style="font-size: 28px;"><?=$single_choice->get_q_s_question()?></pre>
+                        <pre id="question-zone" class="sh_java" style="font-size: 28px;"><?=$single_choice->get_q_s_question()?></pre>
                     <?php elseif(isset($multi_choice)) :?>
-                        <pre class="sh_java" style="font-size: 28px;"><?=$multi_choice->get_q_m_question()?></pre>
+                        <pre id="question-zone" class="sh_java" style="font-size: 28px;"><?=$multi_choice->get_q_m_question()?></pre>
                     <?php endif;?>
                 </div>
                 <div class="col-md-4">
@@ -367,7 +384,7 @@
                     </div>
                     <?php foreach($multi_choice_array as $element):?>
                         <div class="col-md-2">
-                            <button id="dragable<?=$element['element_no']?>" draggable="true" ondragstart="drag(event)" class="btn btn-default" style="font-size:25px;">
+                            <button id="dragable<?=$element['element_no']?>" data-id="<?=$element['element_no']?>" draggable="true" ondragstart="drag(event)" class="btn btn-default" style="font-size:25px;">
                                 <?=$element['element_no']?>)
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <?=$element['element_detail']?>
@@ -378,6 +395,7 @@
             <?php endif;?>
             <hr class="divider">           
         <?php endif;?>
+        <button id="question-submit">submit</button>
     </div>
 </body>
 </html>

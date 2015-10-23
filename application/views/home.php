@@ -137,8 +137,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="#" style="background: #DC4E41; cursor:not-allowed;"><span class="fui-google-plus"></span></a>
                         </div>
                         <div class="login-button" style="-webkit-filter: blur(2px); filter: blur(2px);">
-                            <a href="#" style="background: #A59E9E; cursor:not-allowed;"><span class="fui-question-circle"></span> Guest</a>
+                            <a href="#" style="background: #A59E9E; cursor:not-allowed;"><span class="fui-question-circle"></span> Guest*</a>
                         </div>
+                        <div  style="font-size:20px; color:#EEEDED;">* Guest will have NO access to use ranking system except only to see world ranking</div>
                 </div>
             </div>
         </div>
