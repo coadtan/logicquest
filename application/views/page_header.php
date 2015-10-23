@@ -17,7 +17,7 @@
 	.center-top-mid{
 		position: absolute;
 		top: 0;
-		right: 50%;
+		right: 47%;
 		border: 0;
 	}
 
@@ -42,7 +42,7 @@
     	color: white;
     }
 </style>
-<a href="https://github.com/coad4u4ever/logicquest">
+<a href="<?= base_url('RankingController')?>">
 	<img class="center-top-mid"
 	src="<?=base_url('assets/logicquest/img/ranking_logo_2.png')?>"
 	alt="World Ranking">
@@ -56,7 +56,7 @@
 	<?php endif; ?>	
 	<span class="font-logo">LOGIC QUEST</span>
 	</a>
-	<?php if ($this->facebook->logged_in()) : ?>
+	<?php if ($this->session->userdata('user_id') != NULL) : ?>
         <span class="span-right">
     		<img src="//graph.facebook.com/<?=$this->session->userdata('user_id');?>/picture">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
