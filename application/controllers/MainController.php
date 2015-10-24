@@ -46,7 +46,7 @@ class MainController extends CI_Controller {
 		}
 		$ranking = $this->RankingModel;
 		$ranking_top_ten_array = $ranking->get_top_ten_ranking();
-		$this->load->view('facebook_login');
+		$this->load->view('main');
 		$this->load->view('ranking', array(
 										'ranking_top_ten' => $ranking_top_ten_array
 									)
@@ -59,7 +59,5 @@ class MainController extends CI_Controller {
 		$this->session->unset_userdata('user_name');
 		$this->session->unset_userdata('question_group');
 		redirect('home', redirect);
-
-		// redirect('maincontroller/facebook_login', redirect);
 	}
 }

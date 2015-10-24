@@ -42,7 +42,7 @@
     	color: white;
     }
 </style>
-<a href="<?= base_url('RankingController')?>">
+<a href="<?= base_url('maincontroller/main')?>">
 	<img class="center-top-mid"
 	src="<?=base_url('assets/logicquest/img/ranking_logo_2.png')?>"
 	alt="World Ranking">
