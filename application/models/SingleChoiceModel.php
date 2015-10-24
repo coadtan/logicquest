@@ -106,8 +106,19 @@ class SingleChoiceModel extends CI_Model{
 			}
 			$choice[$choice_number]=array('choice_no'=>$choice_number, 'choice_detail'=>$q_s_choice_temp);
 		}
-
 		return $choice;
 	}
 
+	public function check_answer($q_s_id, $user_answer){
+		$result = $this->db->select('q_s_answer')->from('single_choice')->where('q_s_id', $q_s_id)->get();
+		if ($result->num_rows() >= 1){
+			if($user_answer == $result->result_array()[0]['q_s_answer']){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			echo "no answer found, please check your q_s_id";
+		}
+	}
 }

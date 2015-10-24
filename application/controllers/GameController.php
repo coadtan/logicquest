@@ -36,10 +36,14 @@ class GameController extends CI_Controller {
 			if ($question->get_q_type() === 's'){
 				$single_choice_object = $this->SingleChoiceModel;
 				$single_choice_object = $single_choice_object->get_single_choice_object($question->get_q_id());
+				$this->session->set_userdata('current_q_id', $question->get_q_id());
+				$this->session->set_userdata('question_type', 's');
 				$single_choice_array = $single_choice_object->get_choice_array($single_choice_object->get_q_s_choice());
 			}else if($question->get_q_type() === 'm'){
 				$multi_choice_object = $this->MultiChoiceModel;
 				$multi_choice_object = $multi_choice_object->get_multi_choice_object($question->get_q_id());
+				$this->session->set_userdata('current_q_id', $question->get_q_id());
+				$this->session->set_userdata('question_type', 'm');
 				$multi_choice_array = $multi_choice_object->get_choice_array($multi_choice_object->get_q_m_element());
 			}
 		}else{
@@ -61,7 +65,33 @@ class GameController extends CI_Controller {
 
 	}
 
-	public function player_answer($answer){
-		
+	public function player_answer($user_answer){
+		if(
+			$user_answer != 1 && 
+			$user_answer != 2 && 
+			$user_answer != 3 && 
+			$user_answer != 4 && 
+			$user_answer != 5 && 
+			$user_answer != 6
+		){
+			$this->session->unset_userdata('question_group');
+			$this->load->view('playing', array(
+											'error_message' => 'Please answer the choice.'
+										)
+							 );
+		}else{
+			if($this->session->userdata('question_type')=='s'){
+				$single_choice_object = $this->SingleChoiceModel;
+				$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
+				if ($is_correct){
+					echo "correct";
+				}else{
+					echo "incorrect";
+				}
+			}elseif ($this->session->userdata('question_type')=='m') {
+
+			}
+
+		}
 	}
 }

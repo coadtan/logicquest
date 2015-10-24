@@ -283,6 +283,10 @@
         <?php if(isset($warning_message)) :?>
             <script>sweetAlert('Oops...', '<?=$warning_message?>', 'error')</script>
         <?php endif;?>
+        <?php if(isset($error_message)) :?>
+            <script>sweetAlert('Oops...', '<?=$error_message?>', 'error')</script>
+        <?php endif;?>
+        
         <div class="row">
             <div class="col-xs-3">
                 <a title="Click. If you are a newbie." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/b')?>" class="btn btn-block btn-lg btn-default">Beginner</a>
@@ -365,6 +369,7 @@
                     <?php foreach($single_choice_array as $element):?>
                         <div class="col-md-2">
                             <a href="<?=base_url('gamecontroller/player_answer/'.$element['choice_no'])?>">
+                            <!-- <a href="<?=base_url('gamecontroller/player_answer/?user_answer='.$element['choice_no'].'&q_s_id='.$single_choice->get_q_s_id())?>"> -->
                                 <button class="btn btn-default" style="font-size:25px;">
                                     <?=$element['choice_no']?>)
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -393,7 +398,7 @@
             <?php endif;?>
             <hr class="divider">           
         <?php endif;?>
-        <button id="question-submit">submit</button>
+        <!-- <button id="question-submit">submit</button> -->
     </div>
 </body>
 </html>
