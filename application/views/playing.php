@@ -165,8 +165,6 @@
         <?php endif;?>
     </style>
     <script>
-
-
         var percent = 100;
         $(function(){
             $('.counter').countdown({
@@ -220,53 +218,53 @@
             $("#soundlevel").children('span').css('width', Math.floor(Math.random() * 100)+'%');
         }
         //@ sourceURL=pen.js
-    $(function () {
-        $('[data-toggle=tooltip]').tooltip();
-      });
+        $(function () {
+            $('[data-toggle=tooltip]').tooltip();
+          });
 
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function drag(ev) {
-        ev.dataTransfer.setData("element", ev.target.id);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("element");
-        var element_text = document.getElementById(data).innerHTML;
-        //console.log("xxx"+element_text);
-        element_text = element_text.trim();
-        element_text = element_text.replace(/&nbsp;/g , "");
-        element_text = element_text.trim();
-        element_text = element_text.substring(2);
-        element_text = element_text.trim();
-        ev.target.innerHTML = element_text;
-        var element_id = document.getElementById(data).getAttribute("data-id");
-        ev.target.setAttribute("data-id", element_id);
-        // ev.target.appendChild(document.getElementById(data))
-    }
-    // function deconvert(element){
-    //     element = element.trim();
-    //     element = element.replace(/&nbsp;/g , "");
-    //     element = element.trim();
-    //     element = element.substring(2);
-    //     element = element.trim();
-    //     element = element;
-    //     return element;
-    // }
-
-    function undo_answer(ev){
-        ev.preventDefault();
-        // ev.target.style.display = 'none';
-        console.log(ev.target.innerHTML);
-        if((ev.target.innerHTML !== '[')  && (ev.target.innerHTML !== ']') ){
-            ev.target.innerHTML = '____';
-            ev.target.removeAttribute("data-id");
+        function allowDrop(ev) {
+            ev.preventDefault();
         }
-        
-    }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("element", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("element");
+            var element_text = document.getElementById(data).innerHTML;
+            //console.log("xxx"+element_text);
+            element_text = element_text.trim();
+            element_text = element_text.replace(/&nbsp;/g , "");
+            element_text = element_text.trim();
+            element_text = element_text.substring(2);
+            element_text = element_text.trim();
+            ev.target.innerHTML = element_text;
+            var element_id = document.getElementById(data).getAttribute("data-id");
+            ev.target.setAttribute("data-id", element_id);
+            // ev.target.appendChild(document.getElementById(data))
+        }
+        // function deconvert(element){
+        //     element = element.trim();
+        //     element = element.replace(/&nbsp;/g , "");
+        //     element = element.trim();
+        //     element = element.substring(2);
+        //     element = element.trim();
+        //     element = element;
+        //     return element;
+        // }
+
+        function undo_answer(ev){
+            ev.preventDefault();
+            // ev.target.style.display = 'none';
+            console.log(ev.target.innerHTML);
+            if((ev.target.innerHTML !== '[')  && (ev.target.innerHTML !== ']') ){
+                ev.target.innerHTML = '____';
+                ev.target.removeAttribute("data-id");
+            }
+            
+        }
     </script>
 </head>
 <body onload="sh_highlightDocument();">
