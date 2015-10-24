@@ -4,6 +4,7 @@ class MainController extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('FacebookUserModel');
+		$this->load->model('RankingModel');
 		$this->load->library('facebook');
 		$this->load->library('session');
 		$this->load->helper('url');
@@ -43,8 +44,13 @@ class MainController extends CI_Controller {
 		if(!$this->session->userdata('user_id')){
 			$this->facebook_login();
 		}
-		
+		$ranking = $this->RankingModel;
+		$ranking_top_ten_array = $ranking->get_top_ten_ranking();
 		$this->load->view('facebook_login');
+		$this->load->view('ranking', array(
+										'ranking_top_ten' => $ranking_top_ten_array
+									)
+						 );
 	}
 
 	public function facebook_logout(){
