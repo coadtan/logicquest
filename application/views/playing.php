@@ -243,17 +243,7 @@
             ev.target.innerHTML = element_text;
             var element_id = document.getElementById(data).getAttribute("data-id");
             ev.target.setAttribute("data-id", element_id);
-            // ev.target.appendChild(document.getElementById(data))
         }
-        // function deconvert(element){
-        //     element = element.trim();
-        //     element = element.replace(/&nbsp;/g , "");
-        //     element = element.trim();
-        //     element = element.substring(2);
-        //     element = element.trim();
-        //     element = element;
-        //     return element;
-        // }
 
         function undo_answer(ev){
             ev.preventDefault();
@@ -363,21 +353,17 @@
             <hr class="divider">
             <?php if(isset($single_choice_array)) :?>
                 <div class="row">
-                    <div class="col-md-2" style="font-size:22px;">
-                        Choose your Answer
-                    </div>
+                <?php
+                    $attribute=array('role'=>'form');
+                    echo form_open('gamecontroller/player_answer', $attribute);
+                ?>
                     <?php foreach($single_choice_array as $element):?>
-                        <div class="col-md-2">
-                            <a href="<?=base_url('gamecontroller/player_answer/'.$element['choice_no'])?>">
-                            <!-- <a href="<?=base_url('gamecontroller/player_answer/?user_answer='.$element['choice_no'].'&q_s_id='.$single_choice->get_q_s_id())?>"> -->
-                                <button class="btn btn-default" style="font-size:25px;">
-                                    <?=$element['choice_no']?>)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <?=$element['choice_detail']?>
-                                </button>
-                            </a>
+                        <div class="radio">
+                            <label><input type="radio" name="radio-answer" value="<?=$element['choice_no']?>" required><?=$element['choice_detail']?></label>
                         </div>
                     <?php endforeach;?>
+                    <input type="submit" value="Answer">
+                <?=form_close()?>
                 </div>
             <?php endif;?>
             <?php if(isset($multi_choice_array)) :?>

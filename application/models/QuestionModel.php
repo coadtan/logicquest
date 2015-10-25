@@ -75,8 +75,12 @@ class QuestionModel extends CI_Model{
 				$i++;
 			}
 			$array_q_id_no_history = array_diff($array_of_q_id, $array_of_history_q_id);
-			$rand_keys = array_rand($array_q_id_no_history, 1);
-			return $array_q_id_no_history[$rand_keys];
+			if (count($array_q_id_no_history)==0){
+				return NULL;
+			}else{
+				$rand_keys = array_rand($array_q_id_no_history, 1);
+				return $array_q_id_no_history[$rand_keys];				
+			}
 		}else{
 			$rand_keys = array_rand($array_of_q_id, 1);
 			return $array_of_q_id[$rand_keys];
