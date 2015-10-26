@@ -203,10 +203,12 @@
                 $("#question-zone > button > font").each(function( index ) {
                     data += "[" + $(this).attr("data-id") + "]";
                 });
-                 // console.log(data);
-                 alert(data);
+                $("#user-answer-series").val(data);
             });
+
+
         });
+
         var intervalID = setInterval(function(){getData();}, 100);
         var volumeLevel = 40;
         function getData(){
@@ -322,12 +324,10 @@
         <!-- End of Timing Zone -->
         <?php if(!$this->session->userdata('question_group')):?>
         <div class="row">
-            <div class="col-md-7">
                 <video class="video-js" preload="auto" poster="<?=base_url('assets/logicquest/img/video_poster.png')?>" data-setup="{}">
                     <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.mp4" type="video/mp4">
                     <source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.webm" type="video/webm">
                 </video>
-            </div>  
         </div>
         <?php else :?>
             <hr class="divider">
@@ -373,37 +373,61 @@
                             </span>
                             <font  style="font-size: 23pt;">&nbsp;&nbsp;&nbsp;&nbsp;<?=$element['choice_detail']?></font>
                         </label>
-
-<!--                         <div class="radio">
-                            <label><input type="radio" name="radio-answer" value="<?=$element['choice_no']?>" required><?=$element['choice_detail']?></label>
-                        </div> -->
                     <?php endforeach;?>
                     <br>
                     <div class="col-md-4">
                         <input class="btn btn-block btn-lg btn-primary" type="submit" value="Submit Answer">
+                        <br>
+                        <br>
+                        <br>
                     </div>
                 <?=form_close()?>
                 </div>
             <?php endif;?>
             <?php if(isset($multi_choice_array)) :?>
-                <div class="row">
-                    <div class="col-md-2" style="font-size:22px;">
-                        Order your elements
-                    </div>
+                <div class="row" align="center">
+                    <font style="font-size:22px; font-weight:bold;">Order your Elements</font>
+                    <br>
+                    <br>    
+                </div>
+                <div class="row" style="border-radius: 25px; border: 2px solid #8AC007; padding: 20px;">
+                    <?php $element_row = 1 ?>
                     <?php foreach($multi_choice_array as $element):?>
-                        <div class="col-md-2">
+                        <?php if ($element_row % 4 == 0) :?>
+                            <div class="row">
+                        <?php endif; ?>
+                        <div class="col-md-3">
                             <button id="dragable<?=$element['element_no']?>" data-id="<?=$element['element_no']?>" draggable="true" ondragstart="drag(event)" class="btn btn-default" style="font-size:25px;">
                                 <?=$element['element_no']?>)
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <?=$element['element_detail']?>
                             </button>
                         </div>
+                        <?php if ($element_row++ % 4 == 0) :?>
+                            </div>
+                            <br>
+                        <?php endif; ?>
                     <?php endforeach;?>
                 </div>
-            <?php endif;?>
-            <hr class="divider">           
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <?php
+                            $attribute=array('role'=>'form');
+                            echo form_open('gamecontroller/player_answer', $attribute);
+                        ?>
+                            <input type="hidden" id="user-answer-series" name="user-answer-series" value="5555">
+                            <input  id="question-submit" type="submit" class="btn btn-block btn-lg btn-primary" value="Submit">
+                        <?=form_close() ?>          
+                    </div> 
+                </div>
+            <hr class="divider">       
+            <br>
+            <br>
+            <?php endif;?> 
         <?php endif;?>
-        <!-- <button id="question-submit">submit</button> -->
     </div>
 </body>
 </html>

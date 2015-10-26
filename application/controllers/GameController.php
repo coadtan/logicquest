@@ -94,25 +94,26 @@ class GameController extends CI_Controller {
 
 	public function player_answer(){
 		$this->previous_question_status = NULL;
-	    $user_answer = $this->input->post('radio-answer');
-		if(
-			$user_answer != 1 && 
-			$user_answer != 2 && 
-			$user_answer != 3 && 
-			$user_answer != 4 && 
-			$user_answer != 5 && 
-			$user_answer != 6
-		){
-			$this->session->unset_userdata('question_group');
-			$this->load->view('playing', array(
-											'error_message' => 'Please answer the choice.'
-										)
-							 );
-		}else{
-			if($this->session->userdata('question_type')=='s'){
-				$single_choice_object = $this->SingleChoiceModel;
-				$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
-				$question_object = $this->QuestionModel;
+		$question_object = $this->QuestionModel;
+		if($this->session->userdata('question_type')=='s'){
+			$user_answer = $this->input->post('radio-answer');
+			$single_choice_object = $this->SingleChoiceModel;
+			$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
+			if ($is_correct){
+				$question_object->save_history(1);
+				$this->previous_question_status = 'correct';
+				$group = $this->session->userdata('question_group');
+				$this->get_question($group);
+			}else{
+				$question_object->save_history(0);
+				$this->previous_question_status = 'incorrect';
+				$group = $this->session->userdata('question_group');
+				$this->get_question($group);
+			}
+		}elseif($this->session->userdata('question_type')=='m'){
+				$user_answer_series = $this->input->post('user-answer-series');
+				$multi_choice_object = $this->MultiChoiceModel;
+				$is_correct = $multi_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer_series);
 				if ($is_correct){
 					$question_object->save_history(1);
 					$this->previous_question_status = 'correct';
@@ -123,11 +124,8 @@ class GameController extends CI_Controller {
 					$this->previous_question_status = 'incorrect';
 					$group = $this->session->userdata('question_group');
 					$this->get_question($group);
-				}
-			}elseif ($this->session->userdata('question_type')=='m') {
-
-			}
-
+				}				
 		}
 	}
+
 }
