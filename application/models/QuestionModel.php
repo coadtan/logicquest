@@ -117,4 +117,28 @@ class QuestionModel extends CI_Model{
 		return $result;
 	}
 
+	public function save_history($point_gain){
+		$user_id = $this->session->userdata('user_id');
+		$q_id = $this->session->userdata('current_q_id');	
+		$history = array('user_id'=>$user_id,'q_id'=>$q_id, 'point_gain'=>$point_gain);
+		$this->db->trans_start();
+		$this->db->insert('history', $history);
+		$summary_point_object = $this->db->select('user_point')->from('summary_point')->where('user_id', $user_id)->get();
+		if ($summary_point_object->num_rows() >= 1){
+			$old_summary_point = $summary_point_object->result_array()[0]['user_point'];
+			$new_summary_point = $old_summary_point + $point_gain;
+			$new_point = array('user_point'=>$new_summary_point);
+			$this->db->where('user_id', $user_id);
+			$this->db->update('summary_point', $new_point);
+		}
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+
 }

@@ -43,7 +43,7 @@ class FacebookUserModel extends CI_Model{
 		$user_object = array('user_id'=>$this->facebook_id);
 		$this->db->trans_start();
 		$this->db->insert('facebook_user', $fb_object);
-		$this->db->insert('sumary_point', $user_object);
+		$this->db->insert('summary_point', $user_object);
 		$this->db->trans_complete();
 		if ($this->db->trans_status() === FALSE){
     		$this->db->trans_rollback();

@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class GameController extends CI_Controller {
+	private $previous_question_status = NULL;
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('QuestionModel');
@@ -56,9 +58,11 @@ class GameController extends CI_Controller {
 				}
 				$ranking = $this->RankingModel;
 				$ranking_top_ten_array = $ranking->get_top_ten_ranking();
+
 				$this->load->view('main', array(
-										'is_game_over' => 'yes'
-									)
+										'is_game_over' => 'yes',
+										'previous_question_status' => $this->previous_question_status
+											)
 								);
 				$this->load->view('ranking', array(
 												'ranking_top_ten' => $ranking_top_ten_array
@@ -80,7 +84,8 @@ class GameController extends CI_Controller {
 								'description' => $description,
 								'result' => $result,
 								'single_choice_array' => $single_choice_array,
-								'multi_choice_array' => $multi_choice_array
+								'multi_choice_array' => $multi_choice_array,
+								'previous_question_status' => $this->previous_question_status
 							)
 				 );		
 
@@ -88,6 +93,7 @@ class GameController extends CI_Controller {
 	}
 
 	public function player_answer(){
+		$this->previous_question_status = NULL;
 	    $user_answer = $this->input->post('radio-answer');
 		if(
 			$user_answer != 1 && 
@@ -106,14 +112,17 @@ class GameController extends CI_Controller {
 			if($this->session->userdata('question_type')=='s'){
 				$single_choice_object = $this->SingleChoiceModel;
 				$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
+				$question_object = $this->QuestionModel;
 				if ($is_correct){
-					// update point
-
-					//
+					$question_object->save_history(1);
+					$this->previous_question_status = 'correct';
 					$group = $this->session->userdata('question_group');
 					$this->get_question($group);
 				}else{
-					echo "incorrect";
+					$question_object->save_history(0);
+					$this->previous_question_status = 'incorrect';
+					$group = $this->session->userdata('question_group');
+					$this->get_question($group);
 				}
 			}elseif ($this->session->userdata('question_type')=='m') {
 

@@ -42,11 +42,11 @@ class RankingModel extends CI_Model{
 	}
 
 	public function get_top_ten_ranking(){
-		// SELECT facebook_user.fb_name, sumary_point.* FROM sumary_point JOIN facebook_user ON sumary_point.user_id = facebook_user.fb_id ORDER BY sumary_point.user_point DESC;
+		// SELECT facebook_user.fb_name, summary_point.* FROM summary_point JOIN facebook_user ON summary_point.user_id = facebook_user.fb_id ORDER BY summary_point.user_point DESC;
 		
-		$this->db->select('facebook_user.fb_name, sumary_point.*');
-		$this->db->from('sumary_point');
-		$this->db->join('facebook_user', 'sumary_point.user_id = facebook_user.fb_id');
+		$this->db->select('facebook_user.fb_name, summary_point.*');
+		$this->db->from('summary_point');
+		$this->db->join('facebook_user', 'summary_point.user_id = facebook_user.fb_id');
 		$this->db->order_by("user_point", "desc");
 		$top_ten_object = $this->db->get();
 
@@ -67,4 +67,6 @@ class RankingModel extends CI_Model{
 		}
 
 	}
+
+	
 }

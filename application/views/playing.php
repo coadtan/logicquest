@@ -272,6 +272,13 @@
         <h1>Game Playing</h1>
         <?php if(isset($warning_message)) :?>
             <script>sweetAlert('Oops...', '<?=$warning_message?>', 'error')</script>
+        <?php endif;?>        
+        <?php if(isset($previous_question_status)) :?>
+            <?php if($previous_question_status === 'correct') :?>
+                <script>sweetAlert('Yes,', 'you earned 1 point', 'success')</script>
+            <?php elseif($previous_question_status === 'incorrect') :?>
+                <script>sweetAlert('Sorry,', 'your answer is the wrong one', 'error')</script>
+            <?php endif;?>
         <?php endif;?>
         <?php if(isset($error_message)) :?>
             <script>sweetAlert('Oops...', '<?=$error_message?>', 'error')</script>
@@ -358,11 +365,23 @@
                     echo form_open('gamecontroller/player_answer', $attribute);
                 ?>
                     <?php foreach($single_choice_array as $element):?>
-                        <div class="radio">
+                        <label class="radio">
+                            <input type="radio" name="radio-answer" value="<?=$element['choice_no']?>" required data-toggle="radio" class="custom-radio">
+                            <span style="font-size: 22pt; margin-top:14px;" class="icons">
+                                <span class="icon-unchecked"></span>
+                                <span class="icon-checked"></span>
+                            </span>
+                            <font  style="font-size: 23pt;">&nbsp;&nbsp;&nbsp;&nbsp;<?=$element['choice_detail']?></font>
+                        </label>
+
+<!--                         <div class="radio">
                             <label><input type="radio" name="radio-answer" value="<?=$element['choice_no']?>" required><?=$element['choice_detail']?></label>
-                        </div>
+                        </div> -->
                     <?php endforeach;?>
-                    <input type="submit" value="Answer">
+                    <br>
+                    <div class="col-md-4">
+                        <input class="btn btn-block btn-lg btn-primary" type="submit" value="Submit Answer">
+                    </div>
                 <?=form_close()?>
                 </div>
             <?php endif;?>

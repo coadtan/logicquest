@@ -42,10 +42,47 @@
 
                   }
             });
-        });        
+        });
+
+        function showPreviousQuestionStatus(){
+            <?php if(isset($previous_question_status)) :?>
+                <?php if($previous_question_status === 'correct') :?>
+                    swal(
+                            {   
+                                title: "Yes,",
+                                text: "you earned 1 point",   
+                                type: "success",   
+                                showCancelButton: false,   
+                                confirmButtonColor: "#85CAB5",   
+                                confirmButtonText: "OK",   
+                                closeOnConfirm: false 
+                            },  showFinishGroupMessage
+                        );
+                <?php elseif($previous_question_status === 'incorrect') :?>
+                    swal(
+                            {   
+                                title: "Sorry,",
+                                text: "your answer is the wrong one",   
+                                type: "error",   
+                                showCancelButton: false,   
+                                confirmButtonColor: "#85CAB5",   
+                                confirmButtonText: "OK",   
+                                closeOnConfirm: false 
+                            },  showFinishGroupMessage
+                        );
+                <?php endif;?>
+            <?php else :?>
+                showFinishGroupMessage();
+            <?php endif;?>
+        }
+        function showFinishGroupMessage() {
+            <?php if(isset($is_game_over)) :?>
+                swal('You have done all the question at this moment!', 'Please try another group or wait for more update', 'success');
+            <?php endif; ?>           
+        }
     </script>
 </head>
-<body>
+<body onload="showPreviousQuestionStatus()">
     
     <!-- BODY BELOW -->
     <?php $this->load->view('page_header'); ?>
@@ -54,9 +91,6 @@
     <br>
     <div class="container">
         <!-- Main -->
-        <?php if(isset($is_game_over)) :?>
-            <script>sweetAlert('You have done all the question at this moment!', 'Please try another group or wait for more update', 'success')</script>
-        <?php endif; ?>
         <?php if ($this->facebook->logged_in()) : ?>
             <div class="user-info">
                 <a href="<?=base_url('gamecontroller')?>" class="btn btn-block btn-lg btn-success">Play Game</a>
