@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class MultiChoiceModel extends CI_Model{
+class Multichoice_model extends CI_Model{
 	private $q_m_id;
 	private $q_m_question;
 	private $q_m_element;
@@ -46,7 +46,7 @@ class MultiChoiceModel extends CI_Model{
 	public function get_multi_choice_object($q_m_id){
 		$multi_choice_object = $this->db->select('*')->from('multi_choice')->where('q_m_id', $q_m_id)->get();
 		if ($multi_choice_object->num_rows() >= 1){
-			$multi_choice = new MultiChoiceModel();
+			$multi_choice = new Multichoice_model();
 			$multi_choice->set_q_m_id($multi_choice_object->result_array()[0]['q_m_id']);
 			$multi_choice->set_q_m_question($multi_choice_object->result_array()[0]['q_m_question']);
 			$multi_choice->set_q_m_element($multi_choice_object->result_array()[0]['q_m_element']);

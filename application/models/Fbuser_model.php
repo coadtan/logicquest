@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class FacebookUserModel extends CI_Model{
+class Fbuser_model extends CI_Model{
 	private $facebook_id;
 	private $facebook_name;
 

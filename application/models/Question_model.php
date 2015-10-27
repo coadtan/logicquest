@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class QuestionModel extends CI_Model{
+class Question_model extends CI_Model{
 	private $q_id;
 	private $q_description;
 	private $q_type;
@@ -90,7 +90,7 @@ class QuestionModel extends CI_Model{
 	public function get_question_object($q_id){
 		$question_object = $this->db->select('*')->from('question')->where('q_id', $q_id)->get();
 		if ($question_object->num_rows() >= 1){
-			$question = new QuestionModel();
+			$question = new Question_model();
 			$question->set_q_id($question_object->result_array()[0]['q_id']);
 			$question->set_q_description($question_object->result_array()[0]['q_description']);
 			$question->set_q_type($question_object->result_array()[0]['q_type']);

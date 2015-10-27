@@ -5,10 +5,10 @@ class GameController extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('QuestionModel');
-		$this->load->model('SingleChoiceModel');
-		$this->load->model('MultiChoiceModel');
-		$this->load->model('RankingModel');
+		$this->load->model('Question_model');
+		$this->load->model('Singlechoice_model');
+		$this->load->model('Multichoice_model');
+		$this->load->model('Ranking_model');
 		$this->load->library('facebook');
 		$this->load->library('session');
 		$this->load->helper('url');
@@ -22,7 +22,7 @@ class GameController extends CI_Controller {
 	}
 
 	public function get_question($group){
-		$question = $this->QuestionModel;
+		$question = $this->Question_model;
 		$single_choice_object = null;
 		$multi_choice_object = null;
 		$warning_message = null;
@@ -39,13 +39,13 @@ class GameController extends CI_Controller {
 				$description = $question->get_description($question->get_q_description());
 				$result = $question->get_result($question->get_q_description());
 				if ($question->get_q_type() === 's'){
-					$single_choice_object = $this->SingleChoiceModel;
+					$single_choice_object = $this->Singlechoice_model;
 					$single_choice_object = $single_choice_object->get_single_choice_object($question->get_q_id());
 					$this->session->set_userdata('current_q_id', $question->get_q_id());
 					$this->session->set_userdata('question_type', 's');
 					$single_choice_array = $single_choice_object->get_choice_array($single_choice_object->get_q_s_choice());
 				}else if($question->get_q_type() === 'm'){
-					$multi_choice_object = $this->MultiChoiceModel;
+					$multi_choice_object = $this->Multichoice_model;
 					$multi_choice_object = $multi_choice_object->get_multi_choice_object($question->get_q_id());
 					$this->session->set_userdata('current_q_id', $question->get_q_id());
 					$this->session->set_userdata('question_type', 'm');
@@ -56,7 +56,7 @@ class GameController extends CI_Controller {
 				if(!$this->session->userdata('user_id')){
 					$this->facebook_login();
 				}
-				$ranking = $this->RankingModel;
+				$ranking = $this->Ranking_model;
 				$ranking_top_ten_array = $ranking->get_top_ten_ranking();
 
 				$this->load->view('main', array(
@@ -94,10 +94,10 @@ class GameController extends CI_Controller {
 
 	public function player_answer(){
 		$this->previous_question_status = NULL;
-		$question_object = $this->QuestionModel;
+		$question_object = $this->Question_model;
 		if($this->session->userdata('question_type')=='s'){
 			$user_answer = $this->input->post('radio-answer');
-			$single_choice_object = $this->SingleChoiceModel;
+			$single_choice_object = $this->Singlechoice_model;
 			$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
 			if ($is_correct){
 				$question_object->save_history(1);
@@ -112,7 +112,7 @@ class GameController extends CI_Controller {
 			}
 		}elseif($this->session->userdata('question_type')=='m'){
 				$user_answer_series = $this->input->post('user-answer-series');
-				$multi_choice_object = $this->MultiChoiceModel;
+				$multi_choice_object = $this->Multichoice_model;
 				$is_correct = $multi_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer_series);
 				if ($is_correct){
 					$question_object->save_history(1);

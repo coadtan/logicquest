@@ -6,10 +6,10 @@
 
     <!-- Main -->
     <div class="row" align="center" >
-        <font style="font-weight:bold; font-size: 40px;">World Ranking</font>    
+        <font style="font-weight:bold; font-size: 30px;">World Ranking</font>    
     </div>
     <br>
-    <div class="row" align="right">
+    <div class="row" align="right" style="-webkit-filter: blur(2px); filter: blur(2px);">
         <div class="bootstrap-switch-square">
             <input 
                 type="checkbox" 
@@ -67,7 +67,7 @@
         it not set!~
     <?php endif; ?> 
 
-    <div class="row" align="center">
+    <div class="row" align="center" style="-webkit-filter: blur(2px); filter: blur(2px);">
         <div class="pagination pagination-warning">
             <a href="#fakelink" class="btn btn-warning previous">
                 <i class="fui-arrow-left"></i>

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class SingleChoiceModel extends CI_Model{
+class Singlechoice_model extends CI_Model{
 	private $q_s_id;
 	private $q_s_question;
 	private $q_s_choice;
@@ -46,7 +46,7 @@ class SingleChoiceModel extends CI_Model{
 	public function get_single_choice_object($q_s_id){
 		$single_choice_object = $this->db->select('*')->from('single_choice')->where('q_s_id', $q_s_id)->get();
 		if ($single_choice_object->num_rows() >= 1){
-			$single_choice = new SingleChoiceModel();
+			$single_choice = new Singlechoice_model();
 			$single_choice->set_q_s_id($single_choice_object->result_array()[0]['q_s_id']);
 			$single_choice->set_q_s_question($single_choice_object->result_array()[0]['q_s_question']);
 			$single_choice->set_q_s_choice($single_choice_object->result_array()[0]['q_s_choice']);

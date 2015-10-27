@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class RankingModel extends CI_Model{
+class Ranking_model extends CI_Model{
 	private $rank_no;
 	private $user_id;
 	private $user_name;

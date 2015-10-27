@@ -305,10 +305,10 @@
         <div class="row">
             <div class="col-xs-9" >
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger" style="width: 10%;"><br>0</div>
-                    <div class="progress-bar progress-bar-warning" style="width: 20%;"><br>0.5</div>
-                    <div class="progress-bar" style="width: 30%;"><br>0.75</div>
-                    <div class="progress-bar progress-bar-success" style="width: 40%;"><br>1</div>
+                    <div class="progress-bar progress-bar-danger" style="width: 5%;"><br>0 Point</div>
+                    <div class="progress-bar progress-bar-warning" style="width: 10%;"><br>0.5 Point</div>
+                    <div class="progress-bar" style="width: 20%;"><br>0.75 Point</div>
+                    <div class="progress-bar progress-bar-success" style="width: 65%;"><br>1 Point</div>
                 </div>
                 <div class="progress-bar-move orange shine"> <span id="timerbar" style="width: 100%"></span> </div>
             </div>
