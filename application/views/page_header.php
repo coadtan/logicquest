@@ -42,7 +42,7 @@
     	color: white;
     }
 </style>
-<a href="<?= base_url('maincontroller/main')?>">
+<a href="<?= base_url('MainController/main')?>">
 	<img class="center-top-mid"
 	src="<?=base_url('assets/logicquest/img/ranking_logo_2.png')?>"
 	alt="World Ranking">
@@ -50,7 +50,7 @@
 
 <div class="div-header">
 	<?php if($this->session->userdata('user_id') != NULL) :?>
-	<a href="<?=base_url('maincontroller/main')?>">
+	<a href="<?=base_url('MainController/main')?>">
 	<?php else :?>
 	<a href="<?=base_url('')?>">
 	<?php endif; ?>	
@@ -62,7 +62,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <?=$this->session->userdata('user_name');?>
             &nbsp;&nbsp;&nbsp;
-            <a class="a-header" href="<?=base_url('maincontroller/facebook_logout')?>">
+            <a class="a-header" href="<?=base_url('MainController/facebook_logout')?>">
             	<span class="fui-exit"></span>
             </a>
         </span>

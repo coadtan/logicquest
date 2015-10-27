@@ -93,7 +93,7 @@
         <!-- Main -->
         <?php if ($this->facebook->logged_in()) : ?>
             <div class="user-info">
-                <a href="<?=base_url('gamecontroller')?>" class="btn btn-block btn-lg btn-success">Play Game</a>
+                <a href="<?=base_url('GameController')?>" class="btn btn-block btn-lg btn-success">Play Game</a>
                 <br><br><hr>    
             </div>
         <?php endif; ?>

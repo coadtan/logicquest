@@ -288,16 +288,16 @@
         
         <div class="row">
             <div class="col-xs-3">
-                <a title="Click. If you are a newbie." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/b')?>" class="btn btn-block btn-lg btn-default">Beginner</a>
+                <a title="Click. If you are a newbie." data-placement="top" data-toggle="tooltip" href="<?=base_url('GameController/get_question/b')?>" class="btn btn-block btn-lg btn-default">Beginner</a>
             </div>
             <div class="col-xs-3">
-                <a  title="Click. If you are a programming student." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/e')?>" class="btn btn-block btn-lg btn-success">Easy</a>
+                <a  title="Click. If you are a programming student." data-placement="top" data-toggle="tooltip" href="<?=base_url('GameController/get_question/e')?>" class="btn btn-block btn-lg btn-success">Easy</a>
             </div>
             <div class="col-xs-3">
-                <a  title="Click. If you are a programmer." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/n')?>" class="btn btn-block btn-lg btn-warning">Normal</a>
+                <a  title="Click. If you are a programmer." data-placement="top" data-toggle="tooltip" href="<?=base_url('GameController/get_question/n')?>" class="btn btn-block btn-lg btn-warning">Normal</a>
             </div>
             <div class="col-xs-3">
-                <a  title="Click. If you are an expert." data-placement="top" data-toggle="tooltip" href="<?=base_url('gamecontroller/get_question/h')?>" class="btn btn-block btn-lg btn-danger">Difficult</a>
+                <a  title="Click. If you are an expert." data-placement="top" data-toggle="tooltip" href="<?=base_url('GameController/get_question/h')?>" class="btn btn-block btn-lg btn-danger">Difficult</a>
             </div>
         </div>
         <!-- Timing Zone -->
@@ -362,7 +362,7 @@
                 <div class="row">
                 <?php
                     $attribute=array('role'=>'form');
-                    echo form_open('gamecontroller/player_answer', $attribute);
+                    echo form_open('GameController/player_answer', $attribute);
                 ?>
                     <?php foreach($single_choice_array as $element):?>
                         <label class="radio">
@@ -416,7 +416,7 @@
                     <div class="col-md-4">
                         <?php
                             $attribute=array('role'=>'form');
-                            echo form_open('gamecontroller/player_answer', $attribute);
+                            echo form_open('GameController/player_answer', $attribute);
                         ?>
                             <input type="hidden" id="user-answer-series" name="user-answer-series" value="5555">
                             <input  id="question-submit" type="submit" class="btn btn-block btn-lg btn-primary" value="Submit">
