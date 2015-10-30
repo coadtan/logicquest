@@ -50,7 +50,7 @@
                     swal(
                             {   
                                 title: "Yes,",
-                                text: "you earned 1 point",   
+                                text: "That's correct",   
                                 type: "success",   
                                 showCancelButton: false,   
                                 confirmButtonColor: "#85CAB5",   

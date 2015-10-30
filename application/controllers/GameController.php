@@ -100,7 +100,9 @@ class GameController extends CI_Controller {
 			$single_choice_object = $this->Singlechoice_model;
 			$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
 			if ($is_correct){
-				$question_object->save_history(1);
+				$time_use = $this->input->post('time-use');
+				$point_gain = $this->calculate_point_from_time($time_use);
+				$question_object->save_history($point_gain);
 				$this->previous_question_status = 'correct';
 				$group = $this->session->userdata('question_group');
 				$this->get_question($group);
@@ -115,7 +117,9 @@ class GameController extends CI_Controller {
 				$multi_choice_object = $this->Multichoice_model;
 				$is_correct = $multi_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer_series);
 				if ($is_correct){
-					$question_object->save_history(1);
+					$time_use = $this->input->post('time-use');
+					$point_gain = $this->calculate_point_from_time($time_use);
+					$question_object->save_history($point_gain);
 					$this->previous_question_status = 'correct';
 					$group = $this->session->userdata('question_group');
 					$this->get_question($group);
@@ -128,4 +132,21 @@ class GameController extends CI_Controller {
 		}
 	}
 
+	private function calculate_point_from_time($percent_of_progressbar){
+		/*
+			5 15 35 100
+		*/
+		$point_to_return = 0;
+		if($percent_of_progressbar <= 100 && $percent_of_progressbar >= 35){
+			$point_to_return = 1;
+		}elseif($percent_of_progressbar <= 35 && $percent_of_progressbar >= 15){
+			$point_to_return = 0.75;
+		}elseif($percent_of_progressbar <= 15 && $percent_of_progressbar >= 5){
+			$point_to_return = 0.5;
+		}elseif($percent_of_progressbar <= 5 && $percent_of_progressbar >= 0){
+			$point_to_return = 0;
+		}
+
+		return $point_to_return;
+	}
 }

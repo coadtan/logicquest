@@ -73,12 +73,59 @@
 
         .orange span {
           background-color: #fecf23;
-          background-image: -webkit-gradient(linear, left top, left bottom, from(#fecf23), to(#fd9215));
-          background-image: -webkit-linear-gradient(top, #fecf23, #fd9215);
-          background-image: -moz-linear-gradient(top, #fecf23, #fd9215);
-          background-image: -ms-linear-gradient(top, #fecf23, #fd9215);
-          background-image: -o-linear-gradient(top, #fecf23, #fd9215);
-          background-image: linear-gradient(top, #fecf23, #fd9215);
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#fecf23), to(#fecf23));
+          background-image: -webkit-linear-gradient(top, #fecf23, #fecf23);
+          background-image: -moz-linear-gradient(top, #fecf23, #fecf23);
+          background-image: -ms-linear-gradient(top, #fecf23, #fecf23);
+          background-image: -o-linear-gradient(top, #fecf23, #fecf23);
+          background-image: linear-gradient(top, #fecf23, #fecf23);
+
+          /*
+          green : #2ecc71
+          dark green: #1abc9c
+          yellow: #f1c40f
+          red: #e74c3c
+          */
+        }
+
+        .green span {
+          background-color: #2ecc71;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#2ecc71), to(#2ecc71));
+          background-image: -webkit-linear-gradient(top, #2ecc71, #2ecc71);
+          background-image: -moz-linear-gradient(top, #2ecc71, #2ecc71);
+          background-image: -ms-linear-gradient(top, #2ecc71, #2ecc71);
+          background-image: -o-linear-gradient(top, #2ecc71, #2ecc71);
+          background-image: linear-gradient(top, #2ecc71, #2ecc71);
+        }
+
+        .darkgreen span {
+          background-color: #1abc9c;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#1abc9c), to(#1abc9c));
+          background-image: -webkit-linear-gradient(top, #1abc9c, #1abc9c);
+          background-image: -moz-linear-gradient(top, #1abc9c, #1abc9c);
+          background-image: -ms-linear-gradient(top, #1abc9c, #1abc9c);
+          background-image: -o-linear-gradient(top, #1abc9c, #1abc9c);
+          background-image: linear-gradient(top, #1abc9c, #1abc9c);            
+        }
+
+        .yellow span {
+          background-color: #f1c40f;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#f1c40f), to(#f1c40f));
+          background-image: -webkit-linear-gradient(top, #f1c40f, #f1c40f);
+          background-image: -moz-linear-gradient(top, #f1c40f, #f1c40f);
+          background-image: -ms-linear-gradient(top, #f1c40f, #f1c40f);
+          background-image: -o-linear-gradient(top, #f1c40f, #f1c40f);
+          background-image: linear-gradient(top, #f1c40f, #f1c40f);            
+        }
+
+        .red span {
+          background-color: #e74c3c;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#e74c3c), to(#e74c3c));
+          background-image: -webkit-linear-gradient(top, #e74c3c, #e74c3c);
+          background-image: -moz-linear-gradient(top, #e74c3c, #e74c3c);
+          background-image: -ms-linear-gradient(top, #e74c3c, #e74c3c);
+          background-image: -o-linear-gradient(top, #e74c3c, #e74c3c);
+          background-image: linear-gradient(top, #e74c3c, #e74c3c);            
         }
 
         <?php if($this->session->userdata('question_group')):?>    
@@ -174,12 +221,22 @@
                 continuous: true,
                 digitImages: 6,
                 timerEnd: function() {
-                     
+                    sweetAlert('Oops... time out', 'You still can review and submit the question but you will gain no point.', 'error');
                 },
                 timerCounting: function() {
                     timerbar = document.getElementById("timerbar");
                     timerbar.style.width = percent+"%";
                     percent-=0.5;
+                    console.log(percent);
+                    if(percent <= 100 && percent >= 35){
+                        document.getElementById("timerbar-border").className = "progress-bar-move green shine";
+                    }else if(percent <= 35 && percent >= 15){
+                        document.getElementById("timerbar-border").className = "progress-bar-move darkgreen shine";
+                    }else if(percent <= 15 && percent >= 5){
+                        document.getElementById("timerbar-border").className = "progress-bar-move yellow shine";
+                    }else if(percent <= 5 && percent >= 0){
+                        document.getElementById("timerbar-border").className = "progress-bar-move red shine";
+                    }
                 },
                 image: "<?=base_url('assets/jquery_countdown/img/digits.png')?>"
               });
@@ -200,13 +257,13 @@
 
             $("#question-submit").click(function(){
                 var data = "";
+                var time = percent;
                 $("#question-zone > button > font").each(function( index ) {
                     data += "[" + $(this).attr("data-id") + "]";
                 });
                 $("#user-answer-series").val(data);
+                $("#time-use").val(time);
             });
-
-
         });
 
         var intervalID = setInterval(function(){getData();}, 100);
@@ -277,7 +334,7 @@
         <?php endif;?>        
         <?php if(isset($previous_question_status)) :?>
             <?php if($previous_question_status === 'correct') :?>
-                <script>sweetAlert('Yes,', 'you earned 1 point', 'success')</script>
+                <script>sweetAlert('Yes,', 'That\'s correct', 'success')</script>
             <?php elseif($previous_question_status === 'incorrect') :?>
                 <script>sweetAlert('Sorry,', 'your answer is the wrong one', 'error')</script>
             <?php endif;?>
@@ -310,7 +367,7 @@
                     <div class="progress-bar" style="width: 20%;"><br>0.75 Point</div>
                     <div class="progress-bar progress-bar-success" style="width: 65%;"><br>1 Point</div>
                 </div>
-                <div class="progress-bar-move orange shine"> <span id="timerbar" style="width: 100%"></span> </div>
+                <div id="timerbar-border" class="progress-bar-move orange shine"> <span id="timerbar" style="width: 100%"></span> </div>
             </div>
             <div class="col-xs-3">
                 <?php if(!$this->session->userdata('question_group')):?>
@@ -375,8 +432,9 @@
                         </label>
                     <?php endforeach;?>
                     <br>
+                    <input type="hidden" id="time-use" name="time-use" value="123">
                     <div class="col-md-4">
-                        <input class="btn btn-block btn-lg btn-primary" type="submit" value="Submit Answer">
+                        <input id="question-submit"  class="btn btn-block btn-lg btn-primary" type="submit" value="Submit Answer">
                         <br>
                         <br>
                         <br>
@@ -418,7 +476,8 @@
                             $attribute=array('role'=>'form');
                             echo form_open('GameController/player_answer', $attribute);
                         ?>
-                            <input type="hidden" id="user-answer-series" name="user-answer-series" value="5555">
+                            <input type="hidden" id="user-answer-series" name="user-answer-series" value="no value yet">
+                            <input type="hidden" id="time-use" name="time-use" value="0">
                             <input  id="question-submit" type="submit" class="btn btn-block btn-lg btn-primary" value="Submit">
                         <?=form_close() ?>          
                     </div> 
