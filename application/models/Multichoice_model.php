@@ -114,11 +114,14 @@ class Multichoice_model extends CI_Model{
 	public function check_answer($q_m_id, $user_answer_series){
 		$result = $this->db->select('q_m_answer_series')->from('multi_choice')->where('q_m_id', $q_m_id)->get();
 		if ($result->num_rows() >= 1){
-			if($user_answer_series == $result->result_array()[0]['q_m_answer_series']){
-				return true;
-			}else{
-				return false;
+			$true_result = $result->result_array()[0]['q_m_answer_series'];
+			$true_result_array = explode( ';' , $true_result);
+			foreach ($true_result_array as $one_true_result ){
+				if($user_answer_series == $one_true_result){
+					return true;
+				}
 			}
+			return false;
 		}else{
 			echo "no answer found, please check your q_m_id";
 		}

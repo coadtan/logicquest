@@ -88,9 +88,7 @@ class GameController extends CI_Controller {
 								'multi_choice_array' => $multi_choice_array,
 								'previous_question_status' => $this->previous_question_status
 							)
-				 );		
-
-
+				 );
 	}
 
 	public function player_answer(){
@@ -98,6 +96,7 @@ class GameController extends CI_Controller {
 		$question_object = $this->Question_model;
 		$group = $this->session->userdata('question_group');
 		
+		// Use time stamp to prevent form re-submit on refresh
 		if ( $this->input->post('time_stamp') == $this->session->userdata('time_stamp') ){
 			$this->get_question($group);
 		}else{
