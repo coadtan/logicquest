@@ -30,6 +30,7 @@ class GameController extends CI_Controller {
 		$result = null;
 		$multi_choice_array = null;
 		$single_choice_array = null;
+
 		$array_of_q_id = $question->get_q_id_list_from_group($group);
 		if(isset($array_of_q_id)){
 			$this->session->set_userdata('question_group', $group);
@@ -95,47 +96,48 @@ class GameController extends CI_Controller {
 	public function player_answer(){
 		$this->previous_question_status = NULL;
 		$question_object = $this->Question_model;
-		if($this->session->userdata('question_type')=='s'){
-			$user_answer = $this->input->post('radio-answer');
-			$single_choice_object = $this->Singlechoice_model;
-			$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
-			if ($is_correct){
-				$time_use = $this->input->post('time-use');
-				$point_gain = $this->calculate_point_from_time($time_use);
-				$question_object->save_history($point_gain);
-				$this->previous_question_status = 'correct';
-				$group = $this->session->userdata('question_group');
-				$this->get_question($group);
-			}else{
-				$question_object->save_history(0);
-				$this->previous_question_status = 'incorrect';
-				$group = $this->session->userdata('question_group');
-				$this->get_question($group);
-			}
-		}elseif($this->session->userdata('question_type')=='m'){
-				$user_answer_series = $this->input->post('user-answer-series');
-				$multi_choice_object = $this->Multichoice_model;
-				$is_correct = $multi_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer_series);
+		$group = $this->session->userdata('question_group');
+		
+		if ( $this->input->post('time_stamp') == $this->session->userdata('time_stamp') ){
+			$this->get_question($group);
+		}else{
+			$this->session->set_userdata('time_stamp', $this->input->post('time_stamp'));
+			if($this->session->userdata('question_type')=='s'){
+				$user_answer = $this->input->post('radio-answer');
+				$single_choice_object = $this->Singlechoice_model;
+				$is_correct = $single_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer);
 				if ($is_correct){
 					$time_use = $this->input->post('time-use');
 					$point_gain = $this->calculate_point_from_time($time_use);
 					$question_object->save_history($point_gain);
 					$this->previous_question_status = 'correct';
-					$group = $this->session->userdata('question_group');
 					$this->get_question($group);
 				}else{
 					$question_object->save_history(0);
 					$this->previous_question_status = 'incorrect';
-					$group = $this->session->userdata('question_group');
 					$this->get_question($group);
-				}				
-		}
+				}
+			}elseif($this->session->userdata('question_type')=='m'){
+					$user_answer_series = $this->input->post('user-answer-series');
+					$multi_choice_object = $this->Multichoice_model;
+					$is_correct = $multi_choice_object->check_answer($this->session->userdata('current_q_id') ,$user_answer_series);
+					if ($is_correct){
+						$time_use = $this->input->post('time-use');
+						$point_gain = $this->calculate_point_from_time($time_use);
+						$question_object->save_history($point_gain);
+						$this->previous_question_status = 'correct';
+						
+						$this->get_question($group);
+					}else{
+						$question_object->save_history(0);
+						$this->previous_question_status = 'incorrect';
+						$this->get_question($group);
+					}				
+			}			
+		}	
 	}
 
 	private function calculate_point_from_time($percent_of_progressbar){
-		/*
-			5 15 35 100
-		*/
 		$point_to_return = 0;
 		if($percent_of_progressbar <= 100 && $percent_of_progressbar >= 35){
 			$point_to_return = 1;

@@ -432,7 +432,8 @@
                         </label>
                     <?php endforeach;?>
                     <br>
-                    <input type="hidden" id="time-use" name="time-use" value="123">
+                    <input type="hidden" id="time-use" name="time-use" value="200">
+                    <?php echo form_hidden( 'time_stamp', time() ); ?> 
                     <div class="col-md-4">
                         <input id="question-submit"  class="btn btn-block btn-lg btn-primary" type="submit" value="Submit Answer">
                         <br>
@@ -478,6 +479,7 @@
                         ?>
                             <input type="hidden" id="user-answer-series" name="user-answer-series" value="no value yet">
                             <input type="hidden" id="time-use" name="time-use" value="0">
+                            <?php echo form_hidden( 'time_stamp', time() ); ?> 
                             <input  id="question-submit" type="submit" class="btn btn-block btn-lg btn-primary" value="Submit">
                         <?=form_close() ?>          
                     </div> 
