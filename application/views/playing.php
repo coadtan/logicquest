@@ -453,17 +453,17 @@
                 <div class="row" style="border-radius: 25px; border: 2px solid #8AC007; padding: 20px;">
                     <?php $element_row = 1 ?>
                     <?php foreach($multi_choice_array as $element):?>
-                        <?php if ($element_row % 4 == 0) :?>
+                        <?php if ($element_row % 3 == 0) :?>
                             <div class="row">
                         <?php endif; ?>
-                        <div class="col-md-3">
+                        <div class="col-md-4" align="center">
                             <button id="dragable<?=$element['element_no']?>" data-id="<?=$element['element_no']?>" draggable="true" ondragstart="drag(event)" class="btn btn-default" style="font-size:25px;">
                                 <?=$element['element_no']?>)
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <?=$element['element_detail']?>
                             </button>
                         </div>
-                        <?php if ($element_row++ % 4 == 0) :?>
+                        <?php if ($element_row++ % 3 == 0) :?>
                             </div>
                             <br>
                         <?php endif; ?>
