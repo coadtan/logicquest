@@ -58,17 +58,14 @@ class GameController extends CI_Controller {
 					$this->facebook_login();
 				}
 				$ranking = $this->Ranking_model;
-				$ranking_top_ten_array = $ranking->get_top_ten_ranking();
+				$ranking_for_page = $ranking->get_ranking_by_page();
 
 				$this->load->view('main', array(
 										'is_game_over' => 'yes',
-										'previous_question_status' => $this->previous_question_status
+										'previous_question_status' => $this->previous_question_status,
+										'ranking_for_page' => $ranking_for_page
 											)
 								);
-				$this->load->view('ranking', array(
-												'ranking_top_ten' => $ranking_top_ten_array
-											)
-								 );
 				return;
 			}
 

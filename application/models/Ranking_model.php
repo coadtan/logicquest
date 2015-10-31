@@ -82,20 +82,28 @@ class Ranking_model extends CI_Model{
 		.			.					.
 		10			180					200
 		*/
-		$first_limit = ($page - 1) * 20;
-		$last_limit = $page * 20;
-		$query = $this->db->get('ranking_view', $first_limit, $last_limit);
+		$first_limit = ($page - 1) * 7;
+		$number_of_fetch_row = 7;
+
+		$this->db->select('*');
+		$this->db->from('ranking_view');
+		// $this->db->order_by('rank asc');
+		$this->db->limit($number_of_fetch_row, $first_limit);
+		// limit(number_of_fetch_row, start_from);
+		$query = $this->db->get();
+
 		if ($query->num_rows() >= 1){
 			$ranking_result=array();
 			$rankno = 0;
 			foreach ($query->result_array() as $row){
-				$ranking_result[$rankno]=array(
-										'rank_no'=>$rankno++,
+				$ranking_result[$rankno++]=array(
+										'rank_no'=>$row['rank'],
 										'user_id'=>$row['user_id'],
 										'user_name'=>$row['fb_name'],
 										'point'=>$row['user_point']
 										);
 			}
+
 			return $ranking_result;
 		}else{
 			echo "no ranking page found!";
@@ -108,6 +116,7 @@ class Ranking_model extends CI_Model{
 			echo "no ranking count found!";
 		}
 					
-		return floor($total_row / 20) +1;
+		// return floor($total_row / 20) +1;
+		return floor($total_row / 7) +1;
 	}
 }

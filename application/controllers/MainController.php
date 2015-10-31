@@ -47,10 +47,9 @@ class MainController extends CI_Controller {
 
 		$ranking = $this->Ranking_model;
 		$total_number_of_page = $ranking->get_total_number_of_page();
-		$ranking_for_page = $ranking->get_ranking_by_page(1);
-		$this->load->view('main');
-		$this->load->view('ranking', array(
-										'ranking_for_page' => $ranking_for_page,
+		// $ranking_for_page = $ranking->get_ranking_by_page(1);
+		$this->load->view('main', array(
+										// 'ranking_for_page' => $ranking_for_page,
 										'total_number_of_page' => $total_number_of_page 
 									)
 						 );
@@ -62,5 +61,16 @@ class MainController extends CI_Controller {
 		$this->session->unset_userdata('user_name');
 		$this->session->unset_userdata('question_group');
 		redirect('home', redirect);
+	}
+
+	public function change_ranking_page($page){
+		$ranking = $this->Ranking_model;
+		$total_number_of_page = $ranking->get_total_number_of_page();
+		$ranking_for_page = $ranking->get_ranking_by_page($page);
+		$this->load->view('ranking_data', array(
+										'ranking_for_page' => $ranking_for_page,
+										'total_number_of_page' => $total_number_of_page 
+									)
+						 );
 	}
 }
