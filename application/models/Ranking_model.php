@@ -87,7 +87,9 @@ class Ranking_model extends CI_Model{
 
 		$this->db->select('*');
 		$this->db->from('ranking_view');
+		
 		// $this->db->order_by('rank asc');
+
 		$this->db->limit($number_of_fetch_row, $first_limit);
 		// limit(number_of_fetch_row, start_from);
 		$query = $this->db->get();
