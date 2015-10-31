@@ -33,4 +33,5 @@
 	// SQL to find rank
 	SELECT rank from ranking_view WHERE user_id = [user_id];
 
+	Temporary set player per page in ranking page to 3 players per page. Next will be 20 players per page.
 */

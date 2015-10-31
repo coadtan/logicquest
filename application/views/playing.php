@@ -23,6 +23,7 @@
     <?=script_tag('assets/flat/js/vendor/video.js')?>
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
 
+    <?=link_tag('assets/logicquest/css/footer-distributed.css')?>
     <!-- Loading SHJS syntax JS -->
     <?=script_tag('assets/shjs/js/sh_main.min.js')?>
     <?=script_tag('assets/shjs/js/sh_java.min.js')?>
@@ -490,5 +491,16 @@
             <?php endif;?> 
         <?php endif;?>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- footer section -->
+    <?php $this->load->view('page_footer'); ?>
+    <!-- end of footer section -->
 </body>
 </html>

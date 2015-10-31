@@ -22,6 +22,7 @@
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
     <?=script_tag('assets/logicquest/js/application.js')?>
     <?=link_tag('assets/sweetalert/css/sweetalert.css')?>
+    <?=link_tag('assets/logicquest/css/footer-distributed.css')?>
     <link rel="shortcut icon" href="<?=base_url('assets/logicquest/img/favicon.ico')?>">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -42,8 +43,18 @@
 
                   }
             });
+
+            $(".ranking-page").click(function(e){
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+id);
+            });
+
         });
 
+        function loadRankingData(){
+            $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+1);
+        }
         function showPreviousQuestionStatus(){
             <?php if(isset($previous_question_status)) :?>
                 <?php if($previous_question_status === 'correct') :?>
@@ -82,7 +93,7 @@
         }
     </script>
 </head>
-<body onload="showPreviousQuestionStatus()">
+<body onload="showPreviousQuestionStatus(); loadRankingData()">
     
     <!-- BODY BELOW -->
     <?php $this->load->view('page_header'); ?>
@@ -98,6 +109,63 @@
             </div>
         <?php endif; ?>
         <br>
+        <div class="row" align="center" >
+            <font style="font-weight:bold; font-size: 30px;">World Ranking</font>    
+        </div>
+        <br>
+        <div class="row" align="right" style="-webkit-filter: blur(2px); filter: blur(2px);">
+            <div class="bootstrap-switch-square">
+                <input 
+                    type="checkbox" 
+                    data-toggle="switch" 
+                    id="friend-only-switch"
+                    name="friend-only-switch"
+                    data-on-text="<span class='fui-check'></span>" 
+                    data-off-text="<span class='fui-cross'></span>" 
+                />
+                <font style="font-weight:bold;">&nbsp;&nbsp;View friend only.</font>
+            </div>
+        </div>
+        <br>
+        <div class="row" style="height:100px;">
+            <br>
+            <div class="col-xs-1" align="center">
+                <span style="font-size:40px; color:#F0D349;" class="glyphicon glyphicon-tower" aria-hidden="true"></span>
+            </div>
+            <div class="col-xs-8" align="center">
+                <span style="font-size:40px; color:#F0D349;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            </div>
+            <div class="col-xs-3" align="center">
+                <span style="font-size:40px; color:#F0D349;" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            </div>
+        </div>
+        <br>
+
+        <div id="loading"></div>
+        
+        <?php if ($total_number_of_page) :?>
+        <div class="row" align="center">
+            <div class="pagination pagination-warning">
+                <ul>
+                <?php for ($page=1; $page < $total_number_of_page+1; $page++) {?>
+                    <li <?=(($page==1)?'class="active"':'')?>><a class="ranking-page" id="<?=$page?>" href="#"><?= $page ?></a></li>
+                <?php } ?>
+                
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- footer section -->
+    <?php $this->load->view('page_footer'); ?>
+    <!-- end of footer section -->
 </body>
 </html>
