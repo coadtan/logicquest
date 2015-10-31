@@ -87,9 +87,10 @@ class Ranking_model extends CI_Model{
 		$query = $this->db->get('ranking_view', $first_limit, $last_limit);
 		if ($query->num_rows() >= 1){
 			$ranking_result=array();
+			$rankno = 0;
 			foreach ($query->result_array() as $row){
-				$ranking_result[$row['rank']]=array(
-										'rank_no'=>$row['rank'],
+				$ranking_result[$rankno]=array(
+										'rank_no'=>$rankno++,
 										'user_id'=>$row['user_id'],
 										'user_name'=>$row['fb_name'],
 										'point'=>$row['user_point']
