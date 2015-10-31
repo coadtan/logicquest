@@ -41,21 +41,55 @@ class Ranking_model extends CI_Model{
 		return $this->point;
 	}
 
-	public function get_top_ten_ranking(){
-		// SELECT facebook_user.fb_name, summary_point.* FROM summary_point JOIN facebook_user ON summary_point.user_id = facebook_user.fb_id ORDER BY summary_point.user_point DESC;
+	// public function get_top_ten_ranking(){
+	// 	// SELECT facebook_user.fb_name, summary_point.* FROM summary_point JOIN facebook_user ON summary_point.user_id = facebook_user.fb_id ORDER BY summary_point.user_point DESC;
 		
-		$this->db->select('facebook_user.fb_name, summary_point.*');
-		$this->db->from('summary_point');
-		$this->db->join('facebook_user', 'summary_point.user_id = facebook_user.fb_id');
-		$this->db->order_by("user_point", "desc");
-		$top_ten_object = $this->db->get();
+	// 	$this->db->select('facebook_user.fb_name, summary_point.*');
+	// 	$this->db->from('summary_point');
+	// 	$this->db->join('facebook_user', 'summary_point.user_id = facebook_user.fb_id');
+	// 	$this->db->order_by("user_point", "desc");
+	// 	$top_ten_object = $this->db->get();
 
-		if ($top_ten_object->num_rows() >= 1){
-			$rankno = 0;
+	// 	if ($top_ten_object->num_rows() >= 1){
+	// 		$rankno = 0;
+	// 		$ranking_result=array();
+	// 		foreach ($top_ten_object->result_array() as $row){
+	// 			$ranking_result[$rankno]=array(
+	// 									'rank_no'=>$rankno++,
+	// 									'user_id'=>$row['user_id'],
+	// 									'user_name'=>$row['fb_name'],
+	// 									'point'=>$row['user_point']
+	// 									);
+	// 		}
+	// 		return $ranking_result;
+	// 	}else{
+	// 		echo "no ranking_object found!";
+	// 	}
+
+	// }
+
+	public function get_ranking_by_page($page){
+		/*
+		page |	first_limit		|	last_limit
+		1			0					20
+		2			20					40
+		3			40					60
+		4			60					80
+		5			80					100
+		6			100					120
+		.			.					.
+		.			.					.
+		.			.					.
+		10			180					200
+		*/
+		$first_limit = ($page - 1) * 20;
+		$last_limit = $page * 20;
+		$query = $this->db->get('ranking_view', $first_limit, $last_limit);
+		if ($query->num_rows() >= 1){
 			$ranking_result=array();
-			foreach ($top_ten_object->result_array() as $row){
-				$ranking_result[$rankno]=array(
-										'rank_no'=>$rankno++,
+			foreach ($query->result_array() as $row){
+				$ranking_result[$row['rank']]=array(
+										'rank_no'=>$row['rank'],
 										'user_id'=>$row['user_id'],
 										'user_name'=>$row['fb_name'],
 										'point'=>$row['user_point']
@@ -63,10 +97,16 @@ class Ranking_model extends CI_Model{
 			}
 			return $ranking_result;
 		}else{
-			echo "no ranking_object found!";
-		}
-
+			echo "no ranking page found!";
+		}		
 	}
-
 	
+	public function get_total_number_of_page(){
+		$total_row = $this->db->count_all('ranking_view');
+		if ($total_row == 0){
+			echo "no ranking count found!";
+		}
+					
+		return floor($total_row / 20) +1;
+	}
 }

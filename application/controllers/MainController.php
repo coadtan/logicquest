@@ -44,11 +44,14 @@ class MainController extends CI_Controller {
 		if(!$this->session->userdata('user_id')){
 			$this->facebook_login();
 		}
+
 		$ranking = $this->Ranking_model;
-		$ranking_top_ten_array = $ranking->get_top_ten_ranking();
+		$total_number_of_page = $ranking->get_total_number_of_page();
+		$ranking_for_page = $ranking->get_ranking_by_page(1);
 		$this->load->view('main');
 		$this->load->view('ranking', array(
-										'ranking_top_ten' => $ranking_top_ten_array
+										'ranking_for_page' => $ranking_for_page,
+										'total_number_of_page' => $total_number_of_page 
 									)
 						 );
 	}

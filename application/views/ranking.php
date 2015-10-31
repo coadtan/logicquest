@@ -36,15 +36,15 @@
         </div>
     </div>
     <br>
-    <?php if ($ranking_top_ten) :?>
-        <?php foreach($ranking_top_ten as $element):?>
+    <?php if ($ranking_for_page) :?>
+        <?php foreach($ranking_for_page as $element):?>
             <?php if ($this->session->userdata('user_id') == $element['user_id']) :?>
             <div class="row" style="font-size:30px; background-color:#9BFCD4;">
             <?php else : ?>
             <div class="row" style="font-size:30px;">
             <?php endif; ?>
                 <div class="col-xs-1" align="center">
-                    <span style="font-weight:bold;"><?php echo $element['rank_no']+1 ?></span>
+                    <span style="font-weight:bold;"><?php echo $element['rank_no'] ?></span>
                 </div>
                 <div class="col-xs-8">
                     <div class="col-xs-4" align="center">
@@ -67,23 +67,22 @@
         it not set!~
     <?php endif; ?> 
 
-    <div class="row" align="center" style="-webkit-filter: blur(2px); filter: blur(2px);">
+    <?php if ($total_number_of_page) :?>
+    <div class="row" align="center">
         <div class="pagination pagination-warning">
             <a href="#fakelink" class="btn btn-warning previous">
                 <i class="fui-arrow-left"></i>
-                Previous
             </a>
             <ul>
-              <li class="active"><a href="#fakelink">1</a></li>
-              <li><a href="#fakelink">2</a></li>
-              <li><a href="#fakelink">3</a></li>
-              <li><a href="#fakelink">4</a></li>
-              <li><a href="#fakelink">5</a></li>
+            <?php for ($page=1; $page < $total_number_of_page+1; $page++) {?>
+                <li class="active"><a href="#fakelink"><?= $page ?></a></li>
+            <?php } ?>
+              
             </ul>
             <a href="#fakelink" class="btn btn-warning next">
-                Next
                 <i class="fui-arrow-right"></i>
             </a>
         </div>
     </div>
+    <?php endif; ?>
 </div>

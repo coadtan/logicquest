@@ -11,3 +11,26 @@
 	2) Multi Choice's answer can be more than 1. So handle more possible answer.	
 */
 
+/* 31 Oct 2015
+	
+	// SQL Command to create view for ranking v1
+	CREATE VIEW ranking_view
+	AS
+	SELECT user_id, user_point, (SELECT COUNT(1) FROM summary_point b WHERE b.user_point > a.user_point) + 1 as rank
+	FROM summary_point as a;
+
+	// v2
+	CREATE VIEW ranking_view
+	AS
+	SELECT (SELECT COUNT(1) 
+       FROM summary_point b 
+       WHERE b.user_point > a.user_point) + 1 as rank, user_id, f.fb_name, user_point
+	FROM summary_point as a 
+	JOIN facebook_user as f 
+	ON (f.fb_id = a.user_id)
+	ORDER BY rank asc;
+
+	// SQL to find rank
+	SELECT rank from ranking_view WHERE user_id = [user_id];
+
+*/
