@@ -25,5 +25,7 @@
         <br>
     <?php endforeach;?>
 <?php else :?>
-    it not set!~
+        <div class="row" style="font-size:30px;" align="center">
+            You have no friend playing this game.
+        </div>
 <?php endif; ?> 

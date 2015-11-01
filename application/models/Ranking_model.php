@@ -56,8 +56,8 @@ class Ranking_model extends CI_Model{
 		.			.					.
 		10			180					200
 		*/
-		$first_limit = ($page - 1) * 7;
-		$number_of_fetch_row = 7;
+		$first_limit = ($page - 1) * 20;
+		$number_of_fetch_row = 20;
 
 		if($this->session->userdata('show_friend_only')==='true'){
 			/*
@@ -99,9 +99,10 @@ class Ranking_model extends CI_Model{
 				}
 
 				return $ranking_result;
-			}else{
-				echo "no ranking page found!";
 			}
+			// else{
+			// 	echo "no ranking page found!";
+			// }
 		}else{
 			$this->db->select('*');
 			$this->db->from('ranking_view');
@@ -124,20 +125,37 @@ class Ranking_model extends CI_Model{
 				}
 
 				return $ranking_result;
-			}else{
-				echo "no ranking page found!";
-			}		
+			}
+			// else{
+			// 	echo "no ranking page found!";
+			// }		
 		}
 
 	}
 	
 	public function get_total_number_of_page(){
-		$total_row = $this->db->count_all('ranking_view');
-		if ($total_row == 0){
-			echo "no ranking count found!";
+		if($this->session->userdata('show_friend_only')==='true'){
+
+			// This is sub query
+			$this->db->select('COUNT(friend_id)')->from('facebook_friend');
+			$this->db->where('fb_id',$this->session->userdata('user_id'));
+			$total_row = $this->db->count_all_results();
+
+			// if ($total_row == 0){
+			// 	echo "no ranking count found!";
+			// }
+						
+			// return floor($total_row / 20) +1;
+			return floor($total_row / 20)+1;
+
+		}else{
+			$total_row = $this->db->count_all('ranking_view');
+			// if ($total_row == 0){
+			// 	echo "no ranking count found!";
+			// }
+						
+			// return floor($total_row / 20) +1;
+			return floor($total_row / 20)+1;			
 		}
-					
-		// return floor($total_row / 20) +1;
-		return floor($total_row / 7) +1;
 	}
 }
