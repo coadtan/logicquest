@@ -35,18 +35,34 @@
         }
     </style>
     <script>
+        var current_page = -1;
         $(document).ready(function(){
             $('input[name="friend-only-switch"]').on('switchChange.bootstrapSwitch', function(event, state) {
-                  if (state){
-                    console.log('checked');
-                  }else{
-
-                  }
+                    if (state){
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
+                            data:{'checked':true},
+                            success:function(data){
+                                loadRankingData();
+                            }
+                        });
+                    }else{
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
+                            data:{'checked':false},
+                            success:function(data){
+                                loadRankingData();
+                            }
+                        });
+                    }
             });
 
             $(".ranking-page").click(function(e){
                 e.preventDefault();
                 var id = $(this).attr('id');
+                current_page = id;
                 $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+id);
             });
 
@@ -54,7 +70,10 @@
 
         function loadRankingData(){
             $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+1);
+            document.getElementById("li-1").className = "active";
+            document.getElementById("li-"+current_page).className = "";
         }
+
         function showPreviousQuestionStatus(){
             <?php if(isset($previous_question_status)) :?>
                 <?php if($previous_question_status === 'correct') :?>
@@ -93,8 +112,7 @@
         }
     </script>
 </head>
-<body onload="showPreviousQuestionStatus(); loadRankingData()">
-    
+<body onload="showPreviousQuestionStatus(); loadRankingData();">
     <!-- BODY BELOW -->
     <?php $this->load->view('page_header'); ?>
     <br>
@@ -113,13 +131,14 @@
             <font style="font-weight:bold; font-size: 30px;">World Ranking</font>    
         </div>
         <br>
-        <div class="row" align="right" style="-webkit-filter: blur(2px); filter: blur(2px);">
+        <div class="row" align="right">
             <div class="bootstrap-switch-square">
                 <input 
                     type="checkbox" 
                     data-toggle="switch" 
                     id="friend-only-switch"
                     name="friend-only-switch"
+                    <?=($this->session->userdata('show_friend_only')==='true')?'checked':''?>
                     data-on-text="<span class='fui-check'></span>" 
                     data-off-text="<span class='fui-cross'></span>" 
                 />
@@ -148,7 +167,7 @@
             <div class="pagination pagination-warning">
                 <ul>
                 <?php for ($page=1; $page < $total_number_of_page+1; $page++) {?>
-                    <li <?=(($page==1)?'class="active"':'')?>><a class="ranking-page" id="<?=$page?>" href="#"><?= $page ?></a></li>
+                    <li id="li-<?=$page?>" <?=(($page==1)?'class="active"':'')?>><a class="ranking-page" id="<?=$page?>" href="#"><?= $page ?></a></li>
                 <?php } ?>
                 
                 </ul>
@@ -164,8 +183,6 @@
     <br>
     <br>
     <br>
-    <!-- footer section -->
     <?php $this->load->view('page_footer'); ?>
-    <!-- end of footer section -->
 </body>
 </html>

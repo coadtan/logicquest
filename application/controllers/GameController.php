@@ -130,7 +130,7 @@ class GameController extends CI_Controller {
 						$this->get_question($group);
 					}				
 			}			
-		}	
+		}
 	}
 
 	private function calculate_point_from_time($percent_of_progressbar){

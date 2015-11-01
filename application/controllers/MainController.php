@@ -47,9 +47,7 @@ class MainController extends CI_Controller {
 
 		$ranking = $this->Ranking_model;
 		$total_number_of_page = $ranking->get_total_number_of_page();
-		// $ranking_for_page = $ranking->get_ranking_by_page(1);
 		$this->load->view('main', array(
-										// 'ranking_for_page' => $ranking_for_page,
 										'total_number_of_page' => $total_number_of_page 
 									)
 						 );
@@ -72,5 +70,10 @@ class MainController extends CI_Controller {
 										'total_number_of_page' => $total_number_of_page 
 									)
 						 );
+	}
+
+	public function set_friend_only_session(){
+		$checked = $this->input->post('checked');
+		$this->session->set_userdata('show_friend_only', $checked);
 	}
 }

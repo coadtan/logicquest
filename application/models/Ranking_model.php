@@ -8,6 +8,7 @@ class Ranking_model extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->library('session');
 	}
 
 	public function set_rank_no($rank_no){
@@ -41,37 +42,10 @@ class Ranking_model extends CI_Model{
 		return $this->point;
 	}
 
-	// public function get_top_ten_ranking(){
-	// 	// SELECT facebook_user.fb_name, summary_point.* FROM summary_point JOIN facebook_user ON summary_point.user_id = facebook_user.fb_id ORDER BY summary_point.user_point DESC;
-		
-	// 	$this->db->select('facebook_user.fb_name, summary_point.*');
-	// 	$this->db->from('summary_point');
-	// 	$this->db->join('facebook_user', 'summary_point.user_id = facebook_user.fb_id');
-	// 	$this->db->order_by("user_point", "desc");
-	// 	$top_ten_object = $this->db->get();
-
-	// 	if ($top_ten_object->num_rows() >= 1){
-	// 		$rankno = 0;
-	// 		$ranking_result=array();
-	// 		foreach ($top_ten_object->result_array() as $row){
-	// 			$ranking_result[$rankno]=array(
-	// 									'rank_no'=>$rankno++,
-	// 									'user_id'=>$row['user_id'],
-	// 									'user_name'=>$row['fb_name'],
-	// 									'point'=>$row['user_point']
-	// 									);
-	// 		}
-	// 		return $ranking_result;
-	// 	}else{
-	// 		echo "no ranking_object found!";
-	// 	}
-
-	// }
-
 	public function get_ranking_by_page($page){
 		/*
 		page |	first_limit		|	last_limit
-		1			0					20
+		1			0					2
 		2			20					40
 		3			40					60
 		4			60					80
@@ -85,31 +59,76 @@ class Ranking_model extends CI_Model{
 		$first_limit = ($page - 1) * 7;
 		$number_of_fetch_row = 7;
 
-		$this->db->select('*');
-		$this->db->from('ranking_view');
-		
-		// $this->db->order_by('rank asc');
+		if($this->session->userdata('show_friend_only')==='true'){
+			/*
+			SELECT * 
+			FROM ranking_view
+			WHERE ranking_view.user_id IN (
+											SELECT friend_id 
+											FROM facebook_friend 
+											WHERE fb_id = 10203862441240326 
+										  ) OR ranking_view.user_id = 10203862441240326; 
 
-		$this->db->limit($number_of_fetch_row, $first_limit);
-		// limit(number_of_fetch_row, start_from);
-		$query = $this->db->get();
 
-		if ($query->num_rows() >= 1){
-			$ranking_result=array();
-			$rankno = 0;
-			foreach ($query->result_array() as $row){
-				$ranking_result[$rankno++]=array(
-										'rank_no'=>$row['rank'],
-										'user_id'=>$row['user_id'],
-										'user_name'=>$row['fb_name'],
-										'point'=>$row['user_point']
-										);
+			*/
+			// This is sub query
+			$this->db->select('friend_id')->from('facebook_friend');
+			$this->db->where('fb_id',$this->session->userdata('user_id'));
+			$subQuery =  $this->db->get_compiled_select();
+			// $this->db->_reset_select();
+
+			$this->db->select('*')
+					->from('ranking_view')
+					->where("`user_id` IN ($subQuery)", NULL, FALSE);
+			$this->db->or_where("`user_id`", $this->session->userdata('user_id'));
+
+			$this->db->limit($number_of_fetch_row, $first_limit);
+			// limit(number_of_fetch_row, start_from);
+			$query = $this->db->get();
+
+			if ($query->num_rows() >= 1){
+				$ranking_result=array();
+				$rankno = 0;
+				foreach ($query->result_array() as $row){
+					$ranking_result[$rankno++]=array(
+											'rank_no'=>$row['rank'],
+											'user_id'=>$row['user_id'],
+											'user_name'=>$row['fb_name'],
+											'point'=>$row['user_point']
+											);
+				}
+
+				return $ranking_result;
+			}else{
+				echo "no ranking page found!";
 			}
-
-			return $ranking_result;
 		}else{
-			echo "no ranking page found!";
-		}		
+			$this->db->select('*');
+			$this->db->from('ranking_view');
+			// $this->db->order_by('rank asc');
+
+			$this->db->limit($number_of_fetch_row, $first_limit);
+			// limit(number_of_fetch_row, start_from);
+			$query = $this->db->get();
+
+			if ($query->num_rows() >= 1){
+				$ranking_result=array();
+				$rankno = 0;
+				foreach ($query->result_array() as $row){
+					$ranking_result[$rankno++]=array(
+											'rank_no'=>$row['rank'],
+											'user_id'=>$row['user_id'],
+											'user_name'=>$row['fb_name'],
+											'point'=>$row['user_point']
+											);
+				}
+
+				return $ranking_result;
+			}else{
+				echo "no ranking page found!";
+			}		
+		}
+
 	}
 	
 	public function get_total_number_of_page(){

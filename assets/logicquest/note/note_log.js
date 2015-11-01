@@ -3,6 +3,7 @@
 	user_id = user id
 	question_type = current question type. i.e. single, multi chioce.
 	question_group = current question group type. i.e. b, e, n, h.
+	show_friend_only = save state of view friend ranking only checkbox (true or false). 
 */
 
 /* 25 Oct 2015
@@ -34,4 +35,19 @@
 	SELECT rank from ranking_view WHERE user_id = [user_id];
 
 	Temporary set player per page in ranking page to 3 players per page. Next will be 20 players per page.
+*/
+
+/* 01 Nov 2015
+
+	// SQL to fetch friend only in rankin section
+	SELECT * 
+	FROM ranking_view
+	WHERE ranking_view.user_id IN (
+									SELECT friend_id 
+									FROM facebook_friend 
+									WHERE fb_id = 10203862441240326 
+								  ) OR ranking_view.user_id = 10203862441240326; 
+
+	
+
 */
