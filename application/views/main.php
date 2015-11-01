@@ -8,19 +8,14 @@
     <meta charset="utf-8">
     <title>Main Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Loading Bootstrap -->
-    <!-- Loading jQuery -->
-    <?=script_tag('assets/flat/js/vendor/jquery.min.js')?>
-    <?=link_tag('assets/flat/css/vendor/bootstrap.min.css')?>
-    <?=link_tag('assets/bootstrap/css/bootstrap.min.css')?>
+    <?=script_tag('assets/jquery/jquery-2.1.4.min.js')?>
     <?=script_tag('assets/sweetalert/js/sweetalert.min.js')?>
-    <!-- Loading Flat UI -->
-    <?=link_tag('assets/flat/css/flat-ui.min.css')?>
-    <!-- Loading all compiled plugins -->
-    <!-- Loading jQuery -->
     <?=script_tag('assets/flat/js/vendor/video.js')?>
     <?=script_tag('assets/flat/js/flat-ui.min.js')?>
     <?=script_tag('assets/logicquest/js/application.js')?>
+    <?=link_tag('assets/flat/css/vendor/bootstrap.min.css')?>
+    <?=link_tag('assets/bootstrap/css/bootstrap.min.css')?>
+    <?=link_tag('assets/flat/css/flat-ui.min.css')?>
     <?=link_tag('assets/sweetalert/css/sweetalert.css')?>
     <?=link_tag('assets/logicquest/css/footer-distributed.css')?>
     <link rel="shortcut icon" href="<?=base_url('assets/logicquest/img/favicon.ico')?>">
@@ -29,99 +24,94 @@
       <script src="../../dist/js/vendor/html5shiv.js"></script>
       <script src="../../dist/js/vendor/respond.min.js"></script>
     <![endif]-->
-    <style type="text/css">
-        body{
-            /*background-color: #F4F4F4;*/
-        }
-    </style>
-    <script>
-        var current_page = -1;
-        $(document).ready(function(){
-            $('input[name="friend-only-switch"]').on('switchChange.bootstrapSwitch', function(event, state) {
-                    if (state){
-                        $.ajax({
-                            type:'POST',
-                            url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
-                            data:{'checked':true},
-                            success:function(data){
-                                loadRankingData();
-                            }
-                        });
-                    }else{
-                        $.ajax({
-                            type:'POST',
-                            url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
-                            data:{'checked':false},
-                            success:function(data){
-                                loadRankingData();
-                            }
-                        });
+<script>
+var current_page = -1;
+$(document).ready(function(){
+    $('input[name="friend-only-switch"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            if (state){
+                $.ajax({
+                    type:'POST',
+                    url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
+                    data:{'checked':true},
+                    success:function(data){
+                        loadRankingData();
                     }
-            });
-
-            $(".ranking-page").click(function(e){
-                e.preventDefault();
-                var id = $(this).attr('id');
-                current_page = id;
-                $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+id);
-            });
-
-        });
-
-        function loadRankingData(){
-            $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+1);
-            document.getElementById("li-1").className = 'active';
-            if(current_page != -1){
-                var lt_id = "li-"+current_page;
-                document.getElementById(lt_id).className = "";
+                });
+            }else{
+                $.ajax({
+                    type:'POST',
+                    url:'<?php echo base_url("MainController/set_friend_only_session"); ?>',
+                    data:{'checked':false},
+                    success:function(data){
+                        loadRankingData();
+                    }
+                });
             }
-            
-        }
+            location.reload();
+    });
 
-        function showPreviousQuestionStatus(){
-            <?php if(isset($previous_question_status)) :?>
-                <?php if($previous_question_status === 'correct') :?>
-                    swal(
-                            {   
-                                title: "Yes,",
-                                text: "That's correct",   
-                                type: "success",   
-                                showCancelButton: false,   
-                                confirmButtonColor: "#85CAB5",   
-                                confirmButtonText: "OK",   
-                                closeOnConfirm: false 
-                            },  showFinishGroupMessage
-                        );
-                <?php elseif($previous_question_status === 'incorrect') :?>
-                    swal(
-                            {   
-                                title: "Sorry,",
-                                text: "your answer is the wrong one",   
-                                type: "error",   
-                                showCancelButton: false,   
-                                confirmButtonColor: "#85CAB5",   
-                                confirmButtonText: "OK",   
-                                closeOnConfirm: false 
-                            },  showFinishGroupMessage
-                        );
-                <?php endif;?>
-            <?php else :?>
-                showFinishGroupMessage();
-            <?php endif;?>
-        }
-        function showFinishGroupMessage() {
-            <?php if(isset($is_game_over)) :?>
-                swal('You have done all the question at this moment!', 'Please try another group or wait for more update', 'success');
-            <?php endif; ?>           
-        }
-    </script>
+    $(".ranking-page").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        current_page = id;
+        $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+id);
+    });
+
+});
+
+function loadRankingData(){
+    $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+1);
+    document.getElementById("li-1").className = 'active';
+    if(current_page != -1){
+        var lt_id = "li-"+current_page;
+        document.getElementById(lt_id).className = "";
+    }
+    
+}
+
+function showPreviousQuestionStatus(){
+    <?php if(isset($previous_question_status)) :?>
+        <?php if($previous_question_status === 'correct') :?>
+            swal(
+                    {   
+                        title: "Yes,",
+                        text: "That's correct",   
+                        type: "success",   
+                        showCancelButton: false,   
+                        confirmButtonColor: "#85CAB5",   
+                        confirmButtonText: "OK",   
+                        closeOnConfirm: false 
+                    },  showFinishGroupMessage
+                );
+        <?php elseif($previous_question_status === 'incorrect') :?>
+            swal(
+                    {   
+                        title: "Sorry,",
+                        text: "your answer is the wrong one",   
+                        type: "error",   
+                        showCancelButton: false,   
+                        confirmButtonColor: "#85CAB5",   
+                        confirmButtonText: "OK",   
+                        closeOnConfirm: false 
+                    },  showFinishGroupMessage
+                );
+        <?php endif;?>
+    <?php else :?>
+        showFinishGroupMessage();
+    <?php endif;?>
+}
+
+function showFinishGroupMessage() {
+    <?php if(isset($is_game_over)) :?>
+        swal('You have done all the question at this moment!', 'Please try another group or wait for more update', 'success');
+    <?php endif; ?>           
+}
+</script>
 </head>
 <body onload="showPreviousQuestionStatus(); loadRankingData();">
     <!-- BODY BELOW -->
     <?php $this->load->view('page_header'); ?>
-    <br>
-    <br>
-    <br>
+    <br><br><br>
     <div class="container">
         <!-- Main -->
         <?php if ($this->facebook->logged_in()) : ?>
@@ -179,14 +169,7 @@
         </div>
         <?php endif; ?>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br><br><br><br><br><br><br><br>
     <?php $this->load->view('page_footer'); ?>
 </body>
 </html>
