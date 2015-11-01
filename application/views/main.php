@@ -70,8 +70,12 @@
 
         function loadRankingData(){
             $("#loading").load('<?php echo site_url('MainController/change_ranking_page'); ?>'+'/'+1);
-            document.getElementById("li-1").className = "active";
-            document.getElementById("li-"+current_page).className = "";
+            document.getElementById("li-1").className = 'active';
+            if(current_page != -1){
+                var lt_id = "li-"+current_page;
+                document.getElementById(lt_id).className = "";
+            }
+            
         }
 
         function showPreviousQuestionStatus(){
@@ -167,7 +171,7 @@
             <div class="pagination pagination-warning">
                 <ul>
                 <?php for ($page=1; $page < $total_number_of_page+1; $page++) {?>
-                    <li id="li-<?=$page?>" <?=(($page==1)?'class="active"':'')?>><a class="ranking-page" id="<?=$page?>" href="#"><?= $page ?></a></li>
+                    <li id="li-<?=$page?>" class="<?=(($page==1)?'active':'')?>"><a class="ranking-page" id="<?=$page?>" href="#"><?= $page ?></a></li>
                 <?php } ?>
                 
                 </ul>
