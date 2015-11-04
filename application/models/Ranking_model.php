@@ -124,15 +124,22 @@ class Ranking_model extends CI_Model{
 					->where("`user_id` IN ($subQuery)", NULL, FALSE);
 			$this->db->or_where("`user_id`", $this->session->userdata('user_id'));
 			$total_row = $this->db->count_all_results();
+			/* ///////////// CASE POSSIBLE /////////////
+				totalrow = 0; return 0
+				totalrow = 1-9 return 1
+				totalrow = 10 return 1
+				totalrow = 19 return 2
+			
 
+			*/
 			if ($total_row == 0){
 				$number_of_page = 0;
 			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE<1){
 				$number_of_page = 1;
-			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE==1){
-				$number_of_page = 1;
+			}elseif($total_row % $this->NUMBER_OF_DATA_PER_ONE_PAGE == 0){
+				$number_of_page = $total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE;
 			}else{
-				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE);
+				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE)+1;
 			}
 		
 			return $number_of_page;
@@ -142,10 +149,10 @@ class Ranking_model extends CI_Model{
 				$number_of_page = 0;
 			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE<1){
 				$number_of_page = 1;
-			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE==1){
-				$number_of_page = 1;
+			}elseif($total_row % $this->NUMBER_OF_DATA_PER_ONE_PAGE == 0){
+				$number_of_page = $total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE;
 			}else{
-				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE);
+				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE)+1;
 			}
 			
 			return $number_of_page;		
