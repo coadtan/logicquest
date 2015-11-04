@@ -10,9 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Loading Bootstrap -->
     <?=link_tag('assets/flat/css/vendor/bootstrap.min.css')?>
+    <?=script_tag('assets/sweetalert/js/sweetalert.min.js')?>
     <?=link_tag('assets/bootstrap/css/bootstrap-theme.min.css')?>
     <?=link_tag('assets/bootstrap/css/bootstrap.min.css')?>
-
+    <?=link_tag('assets/sweetalert/css/sweetalert.css')?>
     <!-- Loading Flat UI -->
 	<?=link_tag('assets/flat/css/flat-ui.min.css')?>
 
@@ -104,6 +105,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .footer-section{
             background-color: #000000;
         }
+        #footer {
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>	
 <body>
@@ -154,11 +159,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <br>
         <div class="container"> 
              <div class="row" >
-                <div class="col-md-4" >
+                <div class="col-md-3" >
                     <br><br>
                     <font class="normal-font">2) Solve Quiz</font>
                 </div>
-                <div class="col-md-8"  align="center">
+                <div class="col-md-9"  align="center">
                     <!-- <span style="font-size: 200px; color: #0FCC1C" class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> -->
                     <img src="<?=base_url('assets/logicquest/img/icon_programming.png')?>">
                 </div>
@@ -206,7 +211,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <!-- end of secion credit -->
     <!-- footer section -->
+    <div id="footer">
     <?php $this->load->view('page_footer'); ?>
+    </div>
     <!-- end of footer section -->
 </body>
 </html>

@@ -205,6 +205,7 @@ function askForSureBeginAgain(){
             </div>
         </div>
         <?php endif; ?>
+        <?php if ($this->facebook->logged_in()) : ?>
         <div class="row" >
             <div class="col-xs-9">
             </div>
@@ -212,6 +213,7 @@ function askForSureBeginAgain(){
                 <button  onclick="askForSureBeginAgain()" title="By clicking this button we will reset all of your point." data-placement="top" data-toggle="tooltip" class="btn btn-block btn-lg btn-danger"><span class="fui-trash"></span>  Begin Again</button>
             </div>
         </div>
+        <?php endif; ?>
     </div>
     
     <br><br><br><br><br><br><br><br>
