@@ -125,11 +125,30 @@ class Ranking_model extends CI_Model{
 			$this->db->or_where("`user_id`", $this->session->userdata('user_id'));
 			$total_row = $this->db->count_all_results();
 
-			return floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE)+1;
+			if ($total_row == 0){
+				$number_of_page = 0;
+			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE<1){
+				$number_of_page = 1;
+			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE==1){
+				$number_of_page = 1;
+			}else{
+				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE);
+			}
+		
+			return $number_of_page;
 		}else{
 			$total_row = $this->db->count_all('ranking_view');
-
-			return floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE)+1;			
+			if ($total_row == 0){
+				$number_of_page = 0;
+			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE<1){
+				$number_of_page = 1;
+			}elseif($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE==1){
+				$number_of_page = 1;
+			}else{
+				$number_of_page = floor($total_row / $this->NUMBER_OF_DATA_PER_ONE_PAGE);
+			}
+			
+			return $number_of_page;		
 		}
 	}
 }

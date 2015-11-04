@@ -35,6 +35,7 @@ $(document).ready(function(){
                     data:{'checked':true},
                     success:function(data){
                         loadRankingData();
+                        location.reload();
                     }
                 });
             }else{
@@ -44,10 +45,11 @@ $(document).ready(function(){
                     data:{'checked':false},
                     success:function(data){
                         loadRankingData();
+                        location.reload();
                     }
                 });
             }
-            location.reload();
+            
     });
 
     $(".ranking-page").click(function(e){
