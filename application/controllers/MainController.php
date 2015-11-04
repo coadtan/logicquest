@@ -76,4 +76,14 @@ class MainController extends CI_Controller {
 		$checked = $this->input->post('checked');
 		$this->session->set_userdata('show_friend_only', $checked);
 	}
+
+	public function begin_again(){
+		$user_id = $this->session->userdata('user_id');
+		$ranking = $this->Ranking_model;
+		if($ranking->reset_ranking($user_id)){
+			echo "success";
+		}else{
+			echo "unsuccess";
+		}
+	}
 }

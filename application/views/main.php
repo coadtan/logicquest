@@ -108,6 +108,41 @@ function showFinishGroupMessage() {
         swal('You have done all the question at this moment!', 'Please try another group or wait for more update', 'success');
     <?php endif; ?>           
 }
+
+function askForSureBeginAgain(){
+    swal(
+    {
+       title: "Are you sure?",   
+       text: "You will not be able to recover this action!",   
+       type: "warning",   
+       showCancelButton: true,   
+       confirmButtonColor: "#DD6B55",   
+       confirmButtonText: "Yes, let me begin again!",   
+        closeOnConfirm: false 
+    }, 
+    function(){
+        $.ajax({
+            type:'POST',
+            url:'<?php echo base_url("MainController/begin_again"); ?>',
+            success:function(data){
+                if(data == "success"){
+                    loadRankingData();
+                    swal(
+                        "Alright!", 
+                        "Your records have been deleted. Now you can play the same question again.", "success"
+                    );
+                }else{
+                    swal(
+                        "Sorry!", 
+                        "Something went wrong and your records have not been deleted yet.", "error"
+                    );
+                }   
+            }
+        });
+        
+    }
+    );
+}
 </script>
 </head>
 <body onload="showPreviousQuestionStatus(); loadRankingData();">
@@ -170,7 +205,15 @@ function showFinishGroupMessage() {
             </div>
         </div>
         <?php endif; ?>
+        <div class="row" >
+            <div class="col-xs-9">
+            </div>
+            <div class="col-xs-2">
+                <button  onclick="askForSureBeginAgain()" title="By clicking this button we will reset all of your point." data-placement="top" data-toggle="tooltip" class="btn btn-block btn-lg btn-danger"><span class="fui-trash"></span>  Begin Again</button>
+            </div>
+        </div>
     </div>
+    
     <br><br><br><br><br><br><br><br>
     <?php $this->load->view('page_footer'); ?>
 </body>

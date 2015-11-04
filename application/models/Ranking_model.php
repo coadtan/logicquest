@@ -158,4 +158,22 @@ class Ranking_model extends CI_Model{
 			return $number_of_page;		
 		}
 	}
+
+	//Reset ranking and clear all history. So they can begin again
+	public function reset_ranking($user_id){
+		$this->db->trans_start();
+		$this->db->where('user_id', $user_id);
+		$reset_point = array('user_point'=>0);
+		$this->db->update('summary_point', $reset_point);
+		$this->db->where('user_id', $user_id);
+		$this->db->delete('history'); 
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }
