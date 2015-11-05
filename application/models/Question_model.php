@@ -101,6 +101,28 @@ class Question_model extends CI_Model{
 		}
 	}
 
+	public function get_all_question(){
+		$questions = $this->db->select('*')->from('question')->get();
+		if ($questions->num_rows() >= 1){
+			$question_array=array();
+			$q_no = 0;
+			foreach ($questions->result_array() as $row){
+				$question_array[$q_no++]=array(
+											'q_no'=>$q_no,
+											'q_id'=>$row['q_id'],
+											'description'=>$this->get_description($row['q_description']),
+											'result'=>$this->get_result($row['q_description']),
+											'type'=>($row['q_type']=='s'?'Single Choice':'Multi Choice'),
+											'group'=>($row['q_group']=='b'?'Beginner':($row['q_group']=='e'?'Easy':$row['q_group']=='n'?'Normal':($row['q_group']=='h'?'Difficult':'')))
+											);
+			}
+
+			return $question_array;
+		}else{
+			echo "no question found!";
+		}
+	}
+
 	public function get_description($q_description){
 		$split1 = explode("];[", $q_description);
 		$split2 = explode("][", $split1[0]);

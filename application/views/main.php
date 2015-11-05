@@ -154,6 +154,9 @@ function askForSureBeginAgain(){
         <?php if ($this->facebook->logged_in()) : ?>
             <div class="user-info">
                 <a href="<?=base_url('GameController')?>" class="btn btn-block btn-lg btn-success">Play Game</a>
+                <?php if ($this->session->userdata('user_id')==10203862441240326) : ?>
+                <a href="<?=base_url('AdminController')?>" class="btn btn-block btn-lg btn-warning">Admin</a>
+                <?php endif; ?>
                 <br><br><hr>    
             </div>
         <?php endif; ?>
