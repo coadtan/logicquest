@@ -163,4 +163,32 @@ class Question_model extends CI_Model{
 		}
 	}
 
+	public function get_new_id(){
+		$total_row = $this->db->count_all('question');
+		$new_id = strval($total_row + 1);
+		for($i = strlen($new_id); $i < 10; $i++){
+			$new_id = "0" . $new_id;
+		}
+		return $new_id;
+	}
+
+	public function add_main_question($id, $description, $result, $type, $difficulty){
+		$q_description = "['description']['". $description ."'];['result']['". $result ."']";
+		$question_object = array(
+			'q_id'=>$id,
+			'q_description'=>$q_description,
+			'q_type'=>$type,
+			'q_group'=>$difficulty
+		);
+		$this->db->trans_start();
+		$this->db->insert('question', $question_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }

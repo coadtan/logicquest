@@ -59,53 +59,13 @@ class Singlechoice_model extends CI_Model{
 		}
 	}
 
-	public function get_choice_array($q_s_choice){
-		$choice=array();
-		$symbol_open = 0;
-		$number_of_choice = 0;
-		//============================================================================
-		// Find the total number of choice provided. Maximun of choice provide is 10
-		$maximun_choice = 10;
-		//============================================================================
-		for ($choice_number = 1; $choice_number <= $maximun_choice; $choice_number++) {
-			if(substr($q_s_choice, 0, 3) == '['.$choice_number.']'){
-				$arr = str_split($q_s_choice);
-				foreach($arr as $char){
-					if (strcmp($char, '[') == 0) {
-		    			$symbol_open++;
-		    			continue;
-					}
-					if($symbol_open == 1){
-						if(strcmp($char, '\'') == 0){
-							$symbol_open++;
-							continue;
-						}
-					}elseif($symbol_open == 2){
-						$number_of_choice++;
-					}
-					$symbol_open = 0;
-				}
-			}
+	public function get_choice_array($json_choice){
+		$choices = json_decode($json_choice, true);
+		$i = 1;
+		foreach ($choices["choices"] as $element) {
+			$choice[$i]=array('choice_no'=>$i++, 'choice_detail'=>$element);
 		}
-		//============================================================================
-		// At this point, $number_of_choice is ready to use
-		//============================================================================
-		//============================================================================
-		// Now we are going to populate choice to present at View
-		//[1]['x > y'];[2]['X > Y'];[3]['y < x'];[4]['y > x'];[5]['a < b'];
-		//============================================================================
-		for($choice_number = 1; $choice_number <= $number_of_choice; $choice_number++){
-			if ($choice_number != $number_of_choice){
-				$q_s_choice_temp = substr($q_s_choice, 0, strpos($q_s_choice, '\'];'));
-				$q_s_choice_temp = trim($q_s_choice_temp, '['.$choice_number.'][\'');
-				$unuse_data = '['.$choice_number.'][\'' . $q_s_choice_temp . '\'];';
-				$q_s_choice = trim($q_s_choice, $unuse_data);
-			}elseif($choice_number == $number_of_choice){
-				$q_s_choice_temp = $q_s_choice;
-				$q_s_choice_temp = trim($q_s_choice_temp, '['.$choice_number.'][\'');
-			}
-			$choice[$choice_number]=array('choice_no'=>$choice_number, 'choice_detail'=>$q_s_choice_temp);
-		}
+		
 		return $choice;
 	}
 
@@ -119,6 +79,25 @@ class Singlechoice_model extends CI_Model{
 			}
 		}else{
 			echo "no answer found, please check your q_s_id";
+		}
+	}
+
+	public function add_single_question($id, $question, $choice, $answer){
+		$question_single_object = array(
+			'q_s_id'=>$id,
+			'q_s_question'=>$question,
+			'q_s_choice'=>$choice,
+			'q_s_answer'=>$answer
+		);
+		$this->db->trans_start();
+		$this->db->insert('single_choice', $question_single_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
 		}
 	}
 }

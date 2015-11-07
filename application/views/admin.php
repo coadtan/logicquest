@@ -36,6 +36,13 @@
         body{
             color: white;
         }
+        label{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        font{
+            font-weight: bold;
+        }
     </style>
 <?php if ($this->session->userdata('user_id')==10203862441240326) : ?>
 <script>
@@ -43,8 +50,7 @@ $(document).ready(function(){
     $("#loading").load('<?php echo site_url('AdminController/get_all_question'); ?>');
     $("#add-question").click(function(e){
         e.preventDefault(); 
-        alert('test clicked');
-        $("#loading").load('<?php echo site_url('AdminController/get_all_question'); ?>');
+        $("#loading").load('<?php echo site_url('AdminController/add_question'); ?>');
     });
 
 });

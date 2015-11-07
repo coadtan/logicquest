@@ -159,11 +159,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <br>
         <div class="container"> 
              <div class="row" >
-                <div class="col-md-3" >
+                <div class="col-md-2" >
                     <br><br>
                     <font class="normal-font">2) Solve Quiz</font>
                 </div>
-                <div class="col-md-9"  align="center">
+                <div class="col-md-10"  align="center">
                     <!-- <span style="font-size: 200px; color: #0FCC1C" class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> -->
                     <img src="<?=base_url('assets/logicquest/img/icon_programming.png')?>">
                 </div>
