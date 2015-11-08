@@ -263,7 +263,7 @@ $(document).ready(function(){
 		Preview: 
 	</label>
 	<div class="col-sm-10">
-		<textarea class="form-control" rows="2" id="preview-question" required readonly></textarea>
+		<textarea class="form-control" rows="2" id="preview-question" required></textarea>
 	</div>
 </div>
 <br>

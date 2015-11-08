@@ -61,28 +61,75 @@ $(document).ready(function(){
 				    choice7: choice7,
 				    choice8: choice8,
 				    answer: answer
-	        }, function(data){
-	        	if(data == 'save_successed'){
-	        		swal({   
-                        title: "Yes,",
-                        text: "The question has been saved!",   
-                        type: "success",   
-                        showCancelButton: false,   
-                        confirmButtonColor: "#85CAB5",   
-                        confirmButtonText: "OK",   
-                        closeOnConfirm: true 
-                    },  function(){
-                    	location.reload();
-                    	}
-                	);	
+	        	}, function(data){
+	        		if(data == 'save_successed'){
+		        		swal({   
+	                        title: "Yes,",
+	                        text: "The question has been saved!",   
+	                        type: "success",   
+	                        showCancelButton: false,   
+	                        confirmButtonColor: "#85CAB5",   
+	                        confirmButtonText: "OK",   
+	                        closeOnConfirm: true 
+	                    },  function(){
+	                    	location.reload();
+	                    	}
+	                	);	
+	        		}
 	        	}
-	        }
 	        );
 			
 		}else if(current_state == 'add_multi_question'){
-			
+			var question = $("#preview-question").val();
+			var element1 = $("input#element1-detail").val();
+			var element2 = $("input#element2-detail").val();
+			var element3 = $("input#element3-detail").val();
+			var element4 = $("input#element4-detail").val();
+			var element5 = $("input#element5-detail").val();
+			var element6 = $("input#element6-detail").val();
+			var element7 = $("input#element7-detail").val();
+			var element8 = $("input#element8-detail").val();
+			var answer = $("input#answer").val();
+			var answer2 = $("input#answer2").val();
+
+			$.post("<?php echo site_url('AdminController/save_multi_question'); ?>", {
+				    id: id,
+				    description: description,
+				    result: result,
+				    type: type,
+				    difficulty: difficulty,
+				    question: question,
+				    element1: element1,
+				    element2: element2,
+				    element3: element3,
+				    element4: element4,
+				    element5: element5,
+				    element6: element6,
+				    element7: element7,
+				    element8: element8,
+				    answer: answer,
+				    answer2: answer2
+	        	}, function(data){
+	        		if(data == 'save_successed'){
+		        		swal({   
+	                        title: "Yes,",
+	                        text: "The question has been saved!",   
+	                        type: "success",   
+	                        showCancelButton: false,   
+	                        confirmButtonColor: "#85CAB5",   
+	                        confirmButtonText: "OK",   
+	                        closeOnConfirm: true 
+	                    },  function(){
+	                    	location.reload();
+	                    	}
+	                	);	
+	        		}
+	        	}
+	        );
 		}
-			
+		
+
+
 	});
 });
 </script>
@@ -102,7 +149,7 @@ $(document).ready(function(){
 		Description: 
 	</label>
 	<div class="col-sm-10">
-		<input class="form-control" type="text" id="description" required value="New question description">
+		<input class="form-control" type="text" id="description" required>
 	</div>
 </div>
 <br>
@@ -111,7 +158,7 @@ $(document).ready(function(){
 		Result of Compile: 
 	</label>
 	<div class="col-sm-10">
-		<input class="form-control" type="text" id="result" required value="This is Test">
+		<input class="form-control" type="text" id="result" required>
 	</div>
 </div>
 <br>
@@ -125,7 +172,6 @@ $(document).ready(function(){
 			data-toggle="radio" 
 			value="s"
 			required
-			checked 
 			class="custom-radio">
 				<span class="icons">
 					<span class="icon-unchecked"></span>
@@ -156,7 +202,6 @@ $(document).ready(function(){
 			data-toggle="radio" 
 			value="b"
 			required
-			checked
 			class="custom-radio">
 				<span class="icons">
 					<span class="icon-unchecked"></span>
@@ -216,8 +261,5 @@ $(document).ready(function(){
 		<span class="fui-arrow-right"></span>
 	</button>
 </div>
-<br>
-<br>
-<br>
 <div id="add-question-next"></div>
 </form>

@@ -59,56 +59,13 @@ class Multichoice_model extends CI_Model{
 		}
 	}
 
-	public function get_choice_array($q_m_element){
-		$choice=array();
-		$symbol_open = 0;
-		$number_of_elements = 0;
-		//============================================================================
-		// Find the total number of choice provided. Maximun of choice provide is 10
-		$maximun_choice = 20;
-		//============================================================================
-		for ($choice_number = 1; $choice_number <= $maximun_choice; $choice_number++) {
-			if(substr($q_m_element, 0, 3) == '['.$choice_number.']'){
-				$arr = str_split($q_m_element);
-				foreach($arr as $char){
-					if (strcmp($char, '[') == 0) {
-		    			$symbol_open++;
-		    			continue;
-					}
-					if($symbol_open == 1){
-						if(strcmp($char, '\'') == 0){
-							$symbol_open++;
-							continue;
-						}
-					}elseif($symbol_open == 2){
-						$number_of_elements++;
-					}
-					$symbol_open = 0;
-				}
-			}
+	public function get_element_array($json_element){
+		$elements = json_decode($json_element, true);
+		$i = 1;
+		foreach ($elements['elements'] as $each) {
+			$element[$i]=array('element_no'=>$i++, 'element_detail'=>$each);
 		}
-		//============================================================================
-		// At this point, $number_of_elements is ready to use
-		//============================================================================
-		//============================================================================
-		// Now we are going to populate choice to present at View
-		// [1]['y'];[2]['6'];[3]['>'];[4]['<'];[5]['out'];[6]['print'];[7]['println'];[8]['util'];[9]['(“...”);']; 
-		//============================================================================
-		for($choice_number = 1; $choice_number <= $number_of_elements; $choice_number++){
-			if ($choice_number != $number_of_elements){
-				$q_m_element_temp = substr($q_m_element, 0, strpos($q_m_element, '\'];'));
-				$q_m_element_temp = trim($q_m_element_temp, '['.$choice_number.'][\'');
-				$unuse_data = '['.$choice_number.'][\'' . $q_m_element_temp . '\'];';
-				$q_m_element = trim($q_m_element, $unuse_data);
-			}elseif($choice_number == $number_of_elements){
-				$q_m_element_temp = $q_m_element;
-				$q_m_element_temp = trim($q_m_element_temp, '['.$choice_number.'][\'');
-			}
-
-			$choice[$choice_number]=array('element_no'=>$choice_number, 'element_detail'=>$q_m_element_temp);
-		}
-
-		return $choice;
+		return $element;
 	}
 
 	public function check_answer($q_m_id, $user_answer_series){
@@ -124,6 +81,25 @@ class Multichoice_model extends CI_Model{
 			return false;
 		}else{
 			echo "no answer found, please check your q_m_id";
+		}
+	}
+
+	public function add_multi_question($id, $m_question, $element_json, $answer){
+		$question_multi_object = array(
+			'q_m_id'=>$id,
+			'q_m_question'=>$m_question,
+			'q_m_element'=>$element_json,
+			'q_m_answer_series'=>$answer
+		);
+		$this->db->trans_start();
+		$this->db->insert('multi_choice', $question_multi_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
 		}
 	}
 }

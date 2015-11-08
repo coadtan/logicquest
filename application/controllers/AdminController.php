@@ -127,4 +127,104 @@ class AdminController extends CI_Controller {
     	}
 	    
 	}
+
+	public function save_multi_question(){
+		$id = $this->input->post('id');
+	    $description = $this->input->post('description');
+	    $result = $this->input->post('result');
+	    $type = $this->input->post('type');
+	    $difficulty = $this->input->post('difficulty');
+	    $m_question = $this->input->post('question');
+	    $element1 = $this->input->post('element1');
+	  	$element2 = $this->input->post('element2');
+	   	$element3 = $this->input->post('element3');
+	    $element4 = $this->input->post('element4');
+	    $element5 = $this->input->post('element5');
+	    $element6 = $this->input->post('element6');
+	    $element7 = $this->input->post('element7');
+	    $element8 = $this->input->post('element8');
+	    $answer = $this->input->post('answer');
+	    $answer2 = $this->input->post('answer2');
+
+	    $question = $this->Question_model;
+	    $question_save_status = $question->add_main_question(
+	    							$id,
+	    							$description, 
+									$result, 
+									$type, 
+									$difficulty
+	    						);
+
+    	if($question_save_status){
+    		$multi_question = $this->Multichoice_model;
+    	
+    		$element = array();
+
+    		if($element1 != ""){
+    			$element['elements']['1'] = $element1;
+    		}
+
+    		if($element2 != ""){
+    			$element['elements']['2'] = $element2;
+    		}
+		
+			if($element3 != ""){
+    			$element['elements']['3'] = $element3;
+    		}
+
+    		if($element4 != ""){
+    			$element['elements']['4'] = $element4;
+    		}
+
+    		if($element5 != ""){
+    			$element['elements']['5'] = $element5;
+    		}
+
+    		if($element6 != ""){
+    			$element['elements']['6'] = $element6;
+    		}
+
+    		if($element7 != ""){
+    			$element['elements']['7'] = $element7;
+    		}
+
+    		if($element8 != ""){
+    			$element['elements']['8'] = $element8;
+    		}
+
+			$element_json = json_encode($element);
+
+			
+			$answer_series = "";
+
+			if($answer!= ""){
+				$series1 = str_split($answer);
+				foreach ($series1 as $each) {
+					$answer_series = $answer_series . "[".$each."]";
+				}
+				$answer_series = $answer_series . ';';
+			}
+			
+			if($answer2!= ""){
+				$series2 = str_split($answer2);
+				foreach ($series2 as $each) {
+					$answer_series = $answer_series . "[".$each."]";
+				}
+				$answer_series = $answer_series . ';';
+			}
+
+    		$multi_question_save_status = $multi_question->add_multi_question(
+    											$id,
+    											$m_question,
+    											$element_json,
+    											$answer_series
+    									  );
+    		if($multi_question_save_status){
+    			echo "save_successed";
+    		}else{
+    			echo "save_unsuccessed";
+    		}
+    	}
+	    
+	}
 }

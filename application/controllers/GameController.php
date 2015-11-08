@@ -50,7 +50,7 @@ class GameController extends CI_Controller {
 					$multi_choice_object = $multi_choice_object->get_multi_choice_object($question->get_q_id());
 					$this->session->set_userdata('current_q_id', $question->get_q_id());
 					$this->session->set_userdata('question_type', 'm');
-					$multi_choice_array = $multi_choice_object->get_choice_array($multi_choice_object->get_q_m_element());
+					$multi_choice_array = $multi_choice_object->get_element_array($multi_choice_object->get_q_m_element());
 				}
 		
 			}else{ // no question to do
