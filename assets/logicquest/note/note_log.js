@@ -4,6 +4,7 @@
 	question_type = current question type. i.e. single, multi chioce.
 	question_group = current question group type. i.e. b, e, n, h.
 	show_friend_only = save state of view friend ranking only checkbox (true or false). 
+	user_rank = save current rank of user.
 */
 
 /* 25 Oct 2015
@@ -49,5 +50,35 @@
 								  ) OR ranking_view.user_id = 10203862441240326; 
 
 	
+
+*/
+ 
+/*  08 Nov 2015
+
+	// SQL query rank++
+
+	SET @rownum := 0;
+	SELECT rank, user_id, f.fb_name, user_point FROM ( 
+	     							SELECT @rownum := @rownum +1 AS rank, user_point , user_id
+	 								FROM summary_point 
+	 								ORDER BY  user_point DESC
+								  ) as result JOIN facebook_user as f 
+									ON (f.fb_id = user_id)
+
+	// Version 2
+	CREATE VIEW ranking_view
+	AS
+	SELECT (
+      SELECT  COUNT(*)
+      FROM    summary_point b
+      WHERE   (b.user_point, b.user_id) >= (a.user_point, a.user_id)
+    ) AS rank,
+        user_id,
+        f.fb_name, 
+        user_point
+	FROM summary_point as a 
+	JOIN facebook_user as f 
+	ON (f.fb_id = a.user_id)
+	ORDER BY rank asc;
 
 */

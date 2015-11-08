@@ -176,4 +176,5 @@ class Ranking_model extends CI_Model{
 			return true;
 		}
 	}
+
 }

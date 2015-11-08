@@ -10,6 +10,8 @@ class AdminController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('html');
 		$this->load->helper('form');
+		$this->load->helper('update_rank_helper');
+		update_user_rank_session();
 	}
 	
 	public function index(){
