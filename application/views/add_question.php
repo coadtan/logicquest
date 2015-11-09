@@ -34,7 +34,7 @@ $(document).ready(function(){
 	           	}
 	        );
 		}else if(current_state == 'add_single_question'){
-			var question = $("#preview-question").val();
+			var question = $("#question").val();
 			var choice1 = $("input#choice1-detail").val();
 			var choice2 = $("input#choice2-detail").val();
 			var choice3 = $("input#choice3-detail").val();
@@ -80,7 +80,7 @@ $(document).ready(function(){
 	        );
 			
 		}else if(current_state == 'add_multi_question'){
-			var question = $("#preview-question").val();
+			var question = $("#question").val();
 			var element1 = $("input#element1-detail").val();
 			var element2 = $("input#element2-detail").val();
 			var element3 = $("input#element3-detail").val();
@@ -149,7 +149,7 @@ $(document).ready(function(){
 		Description: 
 	</label>
 	<div class="col-sm-10">
-		<input class="form-control" type="text" id="description" required>
+		<input class="form-control" type="text" id="description">
 	</div>
 </div>
 <br>

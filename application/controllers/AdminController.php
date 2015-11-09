@@ -227,6 +227,13 @@ class AdminController extends CI_Controller {
     			echo "save_unsuccessed";
     		}
     	}
-	    
+	}
+
+	public function gennerate_preview_code(){
+		$code =  $this->input->post('code');
+		$code = str_replace("<tab>","&#09;",$code);
+		$this->load->view('preview_code', array(
+										 'code' => $code
+									));
 	}
 }
