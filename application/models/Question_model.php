@@ -107,13 +107,24 @@ class Question_model extends CI_Model{
 			$question_array=array();
 			$q_no = 0;
 			foreach ($questions->result_array() as $row){
+				$group = $row['q_group'];
+				if($group == 'b'){
+					$group = "Beginner";
+				}else if($group == 'e'){
+					$group = "Easy";
+				}else if($group == 'n'){
+					$group = "Normal";
+				}else if($group == 'h'){
+					$group = "Difficult";
+				}
+
 				$question_array[$q_no++]=array(
 											'q_no'=>$q_no,
 											'q_id'=>$row['q_id'],
 											'description'=>$this->get_description($row['q_description']),
 											'result'=>$this->get_result($row['q_description']),
 											'type'=>($row['q_type']=='s'?'Single Choice':'Multi Choice'),
-											'group'=>($row['q_group']=='b'?'Beginner':($row['q_group']=='e'?'Easy':$row['q_group']=='n'?'Normal':($row['q_group']=='h'?'Difficult':'')))
+											'group'=> $group
 											);
 			}
 
