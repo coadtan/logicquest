@@ -202,4 +202,26 @@ class Question_model extends CI_Model{
 			return true;
 		}
 	}
+
+	public function update_main_question($id, $description, $result, $type, $difficulty){
+		$q_description = "['description']['". $description ."'];['result']['". $result ."']";
+		$question_object = array(
+			'q_id'=>$id,
+			'q_description'=>$q_description,
+			'q_type'=>$type,
+			'q_group'=>$difficulty
+		);
+		$this->db->trans_start();
+		$this->db->where('q_id', $id);
+		$this->db->update('question', $question_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	
 }

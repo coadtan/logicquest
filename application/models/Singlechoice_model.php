@@ -100,4 +100,24 @@ class Singlechoice_model extends CI_Model{
 			return true;
 		}
 	}
+
+	public function update_single_question($id, $question, $choice, $answer){
+		$question_single_object = array(
+			'q_s_id'=>$id,
+			'q_s_question'=>$question,
+			'q_s_choice'=>$choice,
+			'q_s_answer'=>$answer
+		);
+		$this->db->trans_start();
+		$this->db->where('q_s_id', $id);
+		$this->db->update('single_choice', $question_single_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }

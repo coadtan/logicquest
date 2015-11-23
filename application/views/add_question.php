@@ -15,8 +15,8 @@ $(document).ready(function(){
         var id = $("input#question_id").val();
 		var description = $("input#description").val();
 		var result = $("input#result").val();
-		var type = $('input[name=question-type]:checked', '#queston-form').val()
-		var difficulty = $('input[name=difficulty]:checked', '#queston-form').val()
+		var type = $('input[name=question-type]:checked', '#queston-form').val();
+		var difficulty = $('input[name=difficulty]:checked', '#queston-form').val();
 		
 		if(current_state == 'add_question'){
 			$.post("<?php echo site_url('AdminController/add_question_next'); ?>", {

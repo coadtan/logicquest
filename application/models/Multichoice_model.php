@@ -2,9 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Multichoice_model extends CI_Model{
 	private $q_m_id;
+	private $q_m_question_plain;
 	private $q_m_question;
 	private $q_m_element;
 	private $q_m_answer_series;
+
 
 	public function __construct(){
 		parent::__construct();
@@ -17,6 +19,10 @@ class Multichoice_model extends CI_Model{
 
 	public function set_q_m_question($q_m_question){
 		$this->q_m_question = $q_m_question;
+	}
+
+	public function set_q_m_question_plain($q_m_question_plain){
+		$this->q_m_question_plain = $q_m_question_plain;
 	}
 
 	public function set_q_m_element($q_m_element){
@@ -35,6 +41,10 @@ class Multichoice_model extends CI_Model{
 		return $this->q_m_question;
 	}
 
+	public function get_q_m_question_plain(){
+		return $this->q_m_question_plain;
+	}
+
 	public function get_q_m_element(){
 		return $this->q_m_element;
 	}
@@ -48,10 +58,10 @@ class Multichoice_model extends CI_Model{
 		if ($multi_choice_object->num_rows() >= 1){
 			$multi_choice = new Multichoice_model();
 			$multi_choice->set_q_m_id($multi_choice_object->result_array()[0]['q_m_id']);
-			$multi_choice->set_q_m_question($multi_choice_object->result_array()[0]['q_m_question']);
+			$multi_choice->set_q_m_question_plain($multi_choice_object->result_array()[0]['q_m_question']);
 			$multi_choice->set_q_m_element($multi_choice_object->result_array()[0]['q_m_element']);
 			$multi_choice->set_q_m_answer_series($multi_choice_object->result_array()[0]['q_m_answer_series']);
-			$complete_question = convert_multi_question($multi_choice->get_q_m_question());
+			$complete_question = convert_multi_question($multi_choice->get_q_m_question_plain());
 			$multi_choice->set_q_m_question($complete_question);
 			return $multi_choice;
 		}else{
@@ -93,6 +103,26 @@ class Multichoice_model extends CI_Model{
 		);
 		$this->db->trans_start();
 		$this->db->insert('multi_choice', $question_multi_object);
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE){
+    		$this->db->trans_rollback();
+    		return false;
+		}else{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+
+	public function update_multi_question($id, $m_question, $element_json, $answer){
+		$question_multi_object = array(
+			'q_m_id'=>$id,
+			'q_m_question'=>$m_question,
+			'q_m_element'=>$element_json,
+			'q_m_answer_series'=>$answer
+		);
+		$this->db->trans_start();
+		$this->db->where('q_m_id', $id);
+		$this->db->update('multi_choice', $question_multi_object);
 		$this->db->trans_complete();
 		if ($this->db->trans_status() === FALSE){
     		$this->db->trans_rollback();

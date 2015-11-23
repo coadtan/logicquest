@@ -22,6 +22,7 @@
         <td><?= $element['result']?></td>
         <td><?= $element['type']?></td>
         <td><?= $element['group']?></td>
+        <td><span id="edit-question" data="<?= $element['q_id']?>" class="fui-gear" style="cursor: pointer"></span></td>
     </tr>
     <?php endforeach;?>
 <?php endif; ?>

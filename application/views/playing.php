@@ -414,7 +414,7 @@
                         <br>
                     <?php endif;?>
                 </div>
-            </div>  
+            </div>
             <hr class="divider">
             <?php if(isset($single_choice_array)) :?>
                 <div class="row">

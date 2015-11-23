@@ -52,7 +52,14 @@ $(document).ready(function(){
         e.preventDefault(); 
         $("#loading").load('<?php echo site_url('AdminController/add_question'); ?>');
     });
-
+    $("#refresh").click(function(e){
+        e.preventDefault(); 
+        location.reload();
+    });
+    $(document).on('click','#edit-question', function () {
+        var q_id = $(this).attr('data');
+        $("#loading").load('<?php echo site_url('AdminController/edit_question'); ?>'+'/'+q_id);
+    });
 });
 </script>
 <?php endif; ?>
@@ -79,6 +86,10 @@ $(document).ready(function(){
             </div>
         </div>
         <div class="row">
+            <div class="col-xs-1" style="float:left;">
+                <button id="refresh" class="btn btn-block btn-lg btn-warning"><span class="fui-home"></span></button>
+                <br>
+            </div>
             <div class="col-xs-1" style="float:right;">
                 <button id="add-question" class="btn btn-block btn-lg btn-warning"><span class="fui-plus"></span></button>
                 <br>

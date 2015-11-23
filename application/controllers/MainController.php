@@ -12,6 +12,7 @@ class MainController extends CI_Controller {
 		$this->load->helper('update_rank_helper');
 		update_user_rank_session();
 	}
+
 	public function index(){
 		$this->load->view('home');
 	}
